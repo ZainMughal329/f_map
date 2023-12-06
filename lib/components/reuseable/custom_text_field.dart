@@ -47,7 +47,7 @@ class CustomTextField extends StatelessWidget {
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 3,
-            blurRadius: 5,
+            blurRadius: 2,
             offset: Offset(0, 3), // changes the position of the shadow
           ),
         ],

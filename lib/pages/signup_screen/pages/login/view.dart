@@ -2,23 +2,23 @@ import 'package:f_map/components/colors/app_colors.dart';
 import 'package:f_map/components/reuseable/custom_text_field.dart';
 import 'package:f_map/components/reuseable/reuseable_app_bar.dart';
 import 'package:f_map/components/reuseable/round_button.dart';
+import 'package:f_map/components/reuseable/text_widget.dart';
 import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/signup_screen/index.dart';
+import 'package:f_map/pages/signup_screen/pages/login/index.dart';
 import 'package:f_map/pages/splash_screen/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
-import '../../components/reuseable/text_widget.dart';
-
-class SignUpScreen extends GetView<SignUpController> {
-  const SignUpScreen({super.key});
+class LoginScreen extends GetView<LoginController> {
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: reuseAbleAppBar(
-          'SignUp', AppColors.buttonColor, AppColors.buttonTextColor, false),
+          'Login', AppColors.buttonColor, AppColors.buttonTextColor , false),
       body: Stack(
         children: [
           Padding(
@@ -28,22 +28,12 @@ class SignUpScreen extends GetView<SignUpController> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomTextField(
-                    contr: controller.state.userNameCon,
-                    descrip: 'UserName',
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    obsecure: false,
-                    icon: Icons.person_2_outlined),
-                SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(
                     contr: controller.state.emailCon,
                     descrip: 'Email',
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
                     obsecure: false,
-                    icon: Icons.email_outlined),
+                    icon: Icons.person),
                 SizedBox(
                   height: 10,
                 ),
@@ -58,14 +48,13 @@ class SignUpScreen extends GetView<SignUpController> {
                   height: 20,
                 ),
                 RoundButton(
-                  title: 'SignUp',
+                  title: 'Login',
                   onPress: () {
                     controller.setLoading(true);
                     Future.delayed(
                       Duration(seconds: 2),
                       () {
                         if (controller.state.emailCon.text.isEmpty ||
-                            controller.state.userNameCon.text.isEmpty ||
                             controller.state.passCon.text.isEmpty) {
                           controller.state.error.fire();
                           Future.delayed(
@@ -94,16 +83,13 @@ class SignUpScreen extends GetView<SignUpController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextWidget(
-                      title: 'Already have an account??',
-                      fontSize: 13,
-                    ),
+                    TextWidget(title: 'Not have an account??', fontSize: 13,),
                     InkWell(
                         onTap: () {
-                          Get.toNamed(RoutesName.loginScreen);
+                          Get.toNamed(RoutesName.signUpScreen);
                         },
                         child: TextWidget(
-                          title: 'Login',
+                          title: 'SignUp',
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           textColor: AppColors.buttonColor,
@@ -112,6 +98,7 @@ class SignUpScreen extends GetView<SignUpController> {
                         )),
                   ],
                 ),
+
               ],
             ),
           ),

@@ -10,9 +10,9 @@ class SplashScreen extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.checkAuthentication();
     return Scaffold(
-      appBar: reuseAbleAppBar(
-          'Splash Screen', AppColors.buttonColor, AppColors.textColor),
+
       body: Center(
         child: Container(
           child: TextWidget(

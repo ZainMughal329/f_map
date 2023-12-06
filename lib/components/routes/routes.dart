@@ -3,6 +3,7 @@ import 'package:f_map/pages/home_screen/index.dart';
 import 'package:f_map/pages/map_screen/index.dart';
 import 'package:f_map/pages/onboarding_screen/index.dart';
 import 'package:f_map/pages/signup_screen/index.dart';
+import 'package:f_map/pages/signup_screen/pages/login/index.dart';
 import 'package:f_map/pages/splash_screen/index.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,12 @@ class AppRoutes {
       name: RoutesName.signUpScreen,
       page: () => SignUpScreen(),
       binding: SignUpBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: RoutesName.loginScreen,
+      page: () => LoginScreen(),
+      binding: LoginBindings(),
       transition: Transition.zoom,
     ),
     GetPage(
