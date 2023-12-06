@@ -8,6 +8,8 @@ class SignUpState{
   late SMITrigger reset;
   RxBool loading = false.obs;
   TextEditingController emailCon = TextEditingController();
+  TextEditingController phoneCon = TextEditingController();
+
   TextEditingController userNameCon = TextEditingController();
   TextEditingController passCon = TextEditingController();
 

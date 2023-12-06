@@ -23,6 +23,7 @@ class SignUpController extends GetxController {
     artboard.addController(stateMachineController!);
     return stateMachineController;
   }
+
   setLoading(val) {
     state.loading.value = val;
   }
@@ -39,21 +40,45 @@ class SignUpController extends GetxController {
         SessionController().userId = value.user!.uid.toString();
         StorePrefrences sp = StorePrefrences();
         sp.setIsFirstOpen(true);
-        createUser(userinfo);
-        Snackbar.showSnackBar('Success', 'Successfully create an account.',Icons.done_all);
-        setLoading(false);
+        Snackbar.showSnackBar(
+            'Success', 'Successfully create an account.', Icons.done_all);
+        state.check.fire();
+        Future.delayed(
+          Duration(seconds: 3),
+          () {
+            createUser(userinfo);
+            setLoading(false);
+          },
+        );
         clearControllers();
-
       }).onError((error, stackTrace) {
         Snackbar.showSnackBar("Error", error.toString(), Icons.error_outline);
-        setLoading(false);
+        state.error.fire();
+        Future.delayed(
+          Duration(seconds: 3),
+          () {
+            setLoading(false);
+          },
+        );
       });
     } on FirebaseAuthException catch (e) {
       Snackbar.showSnackBar("Error", e.toString(), Icons.error_outline);
-      setLoading(false);
+      state.error.fire();
+      Future.delayed(
+        Duration(seconds: 3),
+        () {
+          setLoading(false);
+        },
+      );
     } catch (e) {
-      setLoading(false);
       Snackbar.showSnackBar("Error", e.toString(), Icons.error_outline);
+      state.error.fire();
+      Future.delayed(
+        Duration(seconds: 3),
+        () {
+          setLoading(false);
+        },
+      );
     }
   }
 
@@ -69,7 +94,7 @@ class SignUpController extends GetxController {
       setLoading(false);
       StorePrefrences sp = StorePrefrences();
       sp.setIsFirstOpen(true);
-      // Get.offAllNamed(RoutesName);
+      Get.offAllNamed(RoutesName.homeScreen);
       print('success');
     }).catchError((error, stackTrace) {
       Snackbar.showSnackBar("Error", error.toString(), Icons.error_outline);
@@ -86,6 +111,5 @@ class SignUpController extends GetxController {
     state.emailCon.clear();
     state.passCon.clear();
     state.userNameCon.clear();
-
   }
 }

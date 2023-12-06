@@ -56,8 +56,9 @@ class CustomTextField extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
         child: TextField(
           controller: contr,
-
+          cursorColor: AppColors.buttonColor,
           readOnly: readOnly,
+
           textInputAction: textInputAction,
           obscureText: obsecure,
           keyboardType: keyboardType,

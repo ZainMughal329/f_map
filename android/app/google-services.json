@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "352198791950",
+    "project_id": "f-map-f3e1e",
+    "storage_bucket": "f-map-f3e1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352198791950:android:7f5d74b59200163e107d5f",
+        "android_client_info": {
+          "package_name": "com.example.f_map"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLQvHUYc0FtghBYOkURvCBkoShcvvTiQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

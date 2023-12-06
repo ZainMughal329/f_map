@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
+import '../../../../components/reuseable/snackbar.dart';
+
 class LoginScreen extends GetView<LoginController> {
   LoginScreen({super.key});
 
@@ -18,125 +20,127 @@ class LoginScreen extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: reuseAbleAppBar(
-          'Login', AppColors.buttonColor, AppColors.buttonTextColor , false),
-      body: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CustomTextField(
-                    contr: controller.state.emailCon,
-                    descrip: 'Email',
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    obsecure: false,
-                    icon: Icons.person),
-                SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(
-                    contr: controller.state.passCon,
-                    descrip: 'Password',
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.visiblePassword,
-                    obsecure: true,
-                    icon: Icons.lock_open_outlined),
-                SizedBox(
-                  height: 20,
-                ),
-                RoundButton(
-                  title: 'Login',
-                  onPress: () {
-                    controller.setLoading(true);
-                    Future.delayed(
-                      Duration(seconds: 2),
-                      () {
-                        if (controller.state.emailCon.text.isEmpty ||
-                            controller.state.passCon.text.isEmpty) {
-                          controller.state.error.fire();
-                          Future.delayed(
-                            Duration(seconds: 3),
-                            () {
-                              controller.setLoading(false);
-                            },
-                          );
-                        } else if (controller.state.emailCon.text ==
-                                'admin@admin.com' &&
-                            controller.state.passCon.text == 'admin@123') {
-                          controller.state.check.fire();
-                          Future.delayed(
-                            Duration(seconds: 3),
-                            () {
-                              // Get.toNamed(RoutesName.homeScreen);
-                              controller.setLoading(false);
-                            },
-                          );
-                          // controller.state.confetti.fire();
-                        }
-                      },
-                    );
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextWidget(title: 'Not have an account??', fontSize: 13,),
-                    InkWell(
-                        onTap: () {
-                          Get.toNamed(RoutesName.signUpScreen);
-                        },
-                        child: TextWidget(
-                          title: 'SignUp',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          textColor: AppColors.buttonColor,
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColors.buttonColor,
+          'Login', AppColors.buttonColor, AppColors.buttonTextColor, false),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 200,
+                  ),
+                  CustomTextField(
+                      contr: controller.state.emailCon,
+                      descrip: 'Email',
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      obsecure: false,
+                      icon: Icons.person),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                      contr: controller.state.passCon,
+                      descrip: 'Password',
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.visiblePassword,
+                      obsecure: true,
+                      icon: Icons.lock_open_outlined),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Obx(() => controller.state.loading.value
+                      ? RoundButton(title: 'Login', onPress: () {
+                        print('object');
+                  })
+                      : RoundButton(
+                          title: 'Login',
+                          onPress: () {
+                            print('121');
+                            Future.delayed(
+                              Duration(seconds: 0),
+                              () {
+                                if (controller.state.emailCon.text.isEmpty ||
+                                    controller.state.passCon.text.isEmpty) {
+                                  Snackbar.showSnackBar(
+                                      "Error",
+                                      'All fields must be filled.',
+                                      Icons.error_outline);
+                                } else {
+                                  controller.loginUserWithEmailAndPassword(
+                                    controller.state.emailCon.text.trim(),
+                                    controller.state.passCon.text.trim(),
+                                  );
+                                  // controller.state.confetti.fire();
+                                }
+                              },
+                            );
+                          },
                         )),
-                  ],
-                ),
-
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextWidget(
+                        title: 'Not have an account??',
+                        fontSize: 13,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Get.toNamed(RoutesName.signUpScreen);
+                          },
+                          child: TextWidget(
+                            title: 'SignUp',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            textColor: AppColors.buttonColor,
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColors.buttonColor,
+                          )),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Obx(
-            () => controller.state.loading.value
-                ? Positioned.fill(
-                    child: Column(
-                      children: [
-                        Spacer(
-                          flex: 2,
-                        ),
-                        Container(
-                          height: 100,
-                          width: 100,
-                          child: RiveAnimation.asset(
-                            'assets/riveAssets/check.riv',
-                            onInit: (artboard) {
-                              StateMachineController con =
-                                  controller.getRiveControllers(artboard);
-
-                              controller.state.error =
-                                  con.findInput<bool>('Error') as SMITrigger;
-                              controller.state.check =
-                                  con.findInput<bool>('Check') as SMITrigger;
-                              controller.state.reset =
-                                  con.findInput<bool>('Reset') as SMITrigger;
-                            },
+            Obx(
+              () => controller.state.loading.value
+                  ? Positioned.fill(
+                      child: Column(
+                        children: [
+                          Spacer(
+                            flex: 2,
                           ),
-                        ),
-                        Spacer(
-                          flex: 2,
-                        ),
-                      ],
-                    ),
-                  )
-                : SizedBox(),
-          ),
-        ],
+                          Container(
+                            height: 100,
+                            width: 100,
+                            child: RiveAnimation.asset(
+                              'assets/riveAssets/check.riv',
+                              onInit: (artboard) {
+                                StateMachineController con =
+                                    controller.getRiveControllers(artboard);
+
+                                controller.state.error =
+                                    con.findInput<bool>('Error') as SMITrigger;
+                                controller.state.check =
+                                    con.findInput<bool>('Check') as SMITrigger;
+                                controller.state.reset =
+                                    con.findInput<bool>('Reset') as SMITrigger;
+                              },
+                            ),
+                          ),
+                          Spacer(
+                            flex: 2,
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(),
+            ),
+          ],
+        ),
       ),
     );
   }
