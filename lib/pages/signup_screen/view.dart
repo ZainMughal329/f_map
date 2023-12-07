@@ -136,33 +136,38 @@ class SignUpScreen extends GetView<SignUpController> {
             Obx(
               () => controller.state.loading.value
                   ? Positioned.fill(
-                      child: Column(
-                        children: [
-                          Spacer(
-                            flex: 2,
-                          ),
-                          Container(
-                            height: 100,
-                            width: 100,
-                            child: RiveAnimation.asset(
-                              'assets/riveAssets/check.riv',
-                              onInit: (artboard) {
-                                StateMachineController con =
-                                    controller.getRiveControllers(artboard);
-
-                                controller.state.error =
-                                    con.findInput<bool>('Error') as SMITrigger;
-                                controller.state.check =
-                                    con.findInput<bool>('Check') as SMITrigger;
-                                controller.state.reset =
-                                    con.findInput<bool>('Reset') as SMITrigger;
-                              },
+                      child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        color: Colors.white.withOpacity(0.8),
+                        child: Column(
+                          children: [
+                            Spacer(
+                              flex: 2,
                             ),
-                          ),
-                          Spacer(
-                            flex: 2,
-                          ),
-                        ],
+                            Container(
+                              height: 100,
+                              width: 100,
+                              child: RiveAnimation.asset(
+                                'assets/riveAssets/check.riv',
+                                onInit: (artboard) {
+                                  StateMachineController con =
+                                      controller.getRiveControllers(artboard);
+
+                                  controller.state.error =
+                                      con.findInput<bool>('Error') as SMITrigger;
+                                  controller.state.check =
+                                      con.findInput<bool>('Check') as SMITrigger;
+                                  controller.state.reset =
+                                      con.findInput<bool>('Reset') as SMITrigger;
+                                },
+                              ),
+                            ),
+                            Spacer(
+                              flex: 2,
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   : SizedBox(),

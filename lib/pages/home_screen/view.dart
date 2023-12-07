@@ -1,6 +1,7 @@
 import 'package:f_map/components/colors/app_colors.dart';
 import 'package:f_map/components/reuseable/reuseable_app_bar.dart';
 import 'package:f_map/components/reuseable/round_button.dart';
+import 'package:f_map/components/reuseable/text_widget.dart';
 import 'package:f_map/components/routes/routes.dart';
 import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/home_screen/index.dart';
@@ -13,40 +14,87 @@ import 'package:get/get.dart';
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({super.key});
 
+
+  Widget _buildSelectVehicle(
+      String vehicleType, String vehicleLogo, BuildContext context) {
+    return  GestureDetector(
+      onTap: () {
+        if (vehicleType == 'Car') {
+          controller.state.vehicleType = 'Car';
+
+          showFeedbackDialog(context,controller.state.feddBackCon);
+        } else if (vehicleType == 'Bus') {
+          controller.state.vehicleType = 'Bus';
+          showFeedbackDialog(context,controller.state.feddBackCon);
+        } else if (vehicleType == 'Bike') {
+          controller.state.vehicleType = 'Bike';
+          showFeedbackDialog(context,controller.state.feddBackCon);
+        } else {
+          controller.state.vehicleType = 'none';
+          // Get.to(() => GMapScreen());
+        }
+      },
+      child: Container(
+        height: 54,
+        width: 280,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: AppColors.buttonColor,
+          borderRadius: const BorderRadius.only(
+            topLeft:Radius.circular(30),
+
+            bottomRight: Radius.circular(30),
+          ),
+          boxShadow: [
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: vehicleLogo == ''
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
+          children: [
+            vehicleLogo == ''
+                ? Container()
+                : Container(
+              padding: EdgeInsets.only(left: 30, right: 25),
+              child: Image.asset('$vehicleLogo.png'),
+            ),
+            TextWidget(title:
+              'Your vehicle type $vehicleType',
+                textColor: AppColors.buttonTextColor,
+                fontSize: 15,
+                fontWeight: FontWeight.normal,
+
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: reuseAbleAppBar('Home Screen', AppColors.buttonColor,
-          AppColors.buttonTextColor, false),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: (){
-              showCustomDialog(context, controller.state.feddBackCon ,onValue: (_){
-
-              });
-            },
-            child: Container(
-              height: 60,
-              width: 300,
-              decoration: BoxDecoration(
-                color: AppColors.buttonColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
+      appBar: reuseAbleAppBar('Vehicle Selection', AppColors.buttonColor, AppColors.buttonTextColor, false),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 50, horizontal: 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildSelectVehicle('Car', 'assets/images/car', context),
+                SizedBox(height: 30,),
+                _buildSelectVehicle('Bus', 'assets/images/bus', context),
+                SizedBox(height: 30,),
+                _buildSelectVehicle('Bike', 'assets/images/bycicle', context),
+                SizedBox(height: 30,),
+                _buildSelectVehicle('Nothing', 'assets/images/walk', context),
+                // _buildSelectVehicle('Car', 'assets/images/car'),
+              ],
             ),
           ),
-
-          RoundButton(title: 'LogOut', onPress: () async {
-            await FirebaseAuth.instance.signOut().then((value) {
-              Get.offAllNamed(RoutesName.loginScreen);
-            });
-           }),
-        ],
+        ),
       ),
     );
   }

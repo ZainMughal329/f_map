@@ -45,6 +45,8 @@
 //     );
 //   }
 // }
+import 'package:f_map/components/colors/app_colors.dart';
+import 'package:f_map/components/reuseable/reuseable_app_bar.dart';
 import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/map_screen/controller.dart';
 import 'package:flutter/material.dart';
@@ -56,15 +58,7 @@ class MapScreen extends GetView<MapController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Google Map'),
-        leading: IconButton(
-          onPressed: (){
-            Get.toNamed(RoutesName.homeScreen);
-          },
-          icon: Icon(Icons.home),
-        ),
-      ),
+      appBar: reuseAbleAppBar('Google Map', AppColors.buttonColor, AppColors.buttonTextColor, false),
       body: FutureBuilder(
         future: controller.checkLocationPermission(),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {

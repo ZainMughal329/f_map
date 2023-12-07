@@ -27,23 +27,23 @@ class MapController extends GetxController {
   GoogleMapController? mapController;
   Location _location = Location();
 
-
   getUpdatedCurrentLocation() async {
     _location.onLocationChanged.listen((LocationData locationData) async {
       state.currentLocation.value = LatLng(locationData.latitude!.toDouble(),
           locationData.longitude!.toDouble());
-      await FirebaseFirestore.instance.collection('location').doc(
-          FirebaseAuth.instance.currentUser!.uid.toString()).set(
-          LocationModel(
-              id: FirebaseAuth.instance.currentUser!.uid.toString(),
-              userName: 'userName',
-              vehicleType: 'vehicleType',
-              vehicleNum: 'vehicleNum',
-              lat: locationData.latitude!.toDouble(),
-              lang: locationData.longitude!.toDouble()).toJson(),
-      ).then((value) {
+      await FirebaseFirestore.instance
+          .collection('location')
+          .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+          .update({
+        'lat' : locationData.latitude!.toDouble(),
+        'lang' : locationData.longitude!.toDouble()
+      }
+
+          )
+          .then((value) {
         print('before');
         showMarkersList();
+        goToCurrentLocation();
         print('new location fetched');
       }).onError((error, stackTrace) {
         print('failed');
@@ -72,6 +72,10 @@ class MapController extends GetxController {
   Future<void> goToCurrentLocation() async {
     LocationData locationData = await _location.getLocation();
     if (mapController != null) {
+      state.currentLocation.value = LatLng(
+        locationData.latitude!,
+        locationData.longitude!,
+      );
       mapController!.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -88,9 +92,9 @@ class MapController extends GetxController {
 
   showMarkersList() async {
     final snap = await FirebaseFirestore.instance.collection('location').get();
-    print('len:'+snap.docs.length.toString());
-    if(snap.docs.isNotEmpty) {
-      for(var mar in snap.docs) {
+    print('len:' + snap.docs.length.toString());
+    if (snap.docs.isNotEmpty) {
+      for (var mar in snap.docs) {
         print('lat:' + mar['lat'].toString());
         print('lang:' + mar['lang'].toString());
 
@@ -106,13 +110,15 @@ class MapController extends GetxController {
   }
 
   List<Marker> getVisibleMarkers() {
+
     List<Marker> visibleMarkers = [];
 
-    for (var marker in state.markerList) {
-        visibleMarkers.add(marker);
 
+    for (var marker in state.markerList) {
+      visibleMarkers.add(marker);
     }
-    // print('visibleMarkers length : ' + visibleMarkers.length.toString());
+    print('visibleMarkers length : ' + visibleMarkers.length.toString());
     return visibleMarkers;
+
   }
 }
