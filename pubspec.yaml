@@ -43,6 +43,7 @@ dependencies:
   google_fonts:
   rive:
   shared_preferences:
+  location:
 
 dev_dependencies:
   flutter_test:

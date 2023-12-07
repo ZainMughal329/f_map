@@ -7,16 +7,11 @@ class SplashController extends GetxController {
   final state = SplashState();
 
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    // checkAuthentication();
-    super.onInit();
-  }
+
 
   checkAuthentication() {
     Future.delayed(Duration(seconds: 6) , () {
-      Get.offAllNamed(RoutesName.loginScreen);
+      Get.offAllNamed(RoutesName.mapScreen);
     });
   }
 }
