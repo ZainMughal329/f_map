@@ -11,7 +11,7 @@ class SplashController extends GetxController {
 
   checkAuthentication() {
     Future.delayed(Duration(seconds: 6) , () {
-      Get.offAllNamed(RoutesName.mapScreen);
+      Get.offAllNamed(RoutesName.loginScreen);
     });
   }
 }

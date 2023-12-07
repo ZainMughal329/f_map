@@ -45,6 +45,7 @@
 //     );
 //   }
 // }
+import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/map_screen/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,6 +58,12 @@ class MapScreen extends GetView<MapController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Google Map'),
+        leading: IconButton(
+          onPressed: (){
+            Get.toNamed(RoutesName.homeScreen);
+          },
+          icon: Icon(Icons.home),
+        ),
       ),
       body: FutureBuilder(
         future: controller.checkLocationPermission(),
@@ -68,13 +75,16 @@ class MapScreen extends GetView<MapController> {
               children: [
                 Obx(() => GoogleMap(
                       initialCameraPosition: CameraPosition(
-                        target: LatLng(0, 0),
+                        target: controller.state.currentLocation.value,
                         zoom: 15.0,
                       ),
                       onMapCreated: (GoogleMapController con) {
                         controller.mapController = con;
-                        controller.goToCurrentLocation();
+                        // controller.goToCurrentLocation();
                       },
+                  markers:
+                  Set<Marker>.from(controller.getVisibleMarkers(),),
+
                     )),
               ],
             );

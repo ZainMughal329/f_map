@@ -42,7 +42,7 @@ class LoginController extends GetxController {
         Future.delayed(
           Duration(seconds: 3),
           () {
-            Get.offAllNamed(RoutesName.homeScreen);
+            Get.offAllNamed(RoutesName.mapScreen);
             setLoading(false);
           },
         );
