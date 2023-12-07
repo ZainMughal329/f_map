@@ -30,16 +30,19 @@ class LoginScreen extends GetView<LoginController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 200,
+                  // Container(
+                  //   height: 200,
+                  // ),
+                  Padding(
+                    padding:  EdgeInsets.only(top: 100),
+                    child: CustomTextField(
+                        contr: controller.state.emailCon,
+                        descrip: 'Email',
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.text,
+                        obsecure: false,
+                        icon: Icons.person),
                   ),
-                  CustomTextField(
-                      contr: controller.state.emailCon,
-                      descrip: 'Email',
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      obsecure: false,
-                      icon: Icons.person),
                   SizedBox(
                     height: 10,
                   ),

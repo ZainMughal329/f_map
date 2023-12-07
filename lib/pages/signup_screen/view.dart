@@ -31,16 +31,16 @@ class SignUpScreen extends GetView<SignUpController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 150,
+                  Padding(
+                    padding:  EdgeInsets.only(top: 100),
+                    child: CustomTextField(
+                        contr: controller.state.userNameCon,
+                        descrip: 'UserName',
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.text,
+                        obsecure: false,
+                        icon: Icons.person_2_outlined),
                   ),
-                  CustomTextField(
-                      contr: controller.state.userNameCon,
-                      descrip: 'UserName',
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      obsecure: false,
-                      icon: Icons.person_2_outlined),
                   SizedBox(
                     height: 10,
                   ),

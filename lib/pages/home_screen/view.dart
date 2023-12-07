@@ -102,11 +102,13 @@ class HomeScreen extends GetView<HomeController> {
                     backgroundImage: AssetImage('$vehicleLogo.png'),
                   ),
                 ),
-              Text(
-                'Your vehicle type is $vehicleType',
-                style: TextStyle(
-                  color: AppColors.buttonTextColor, // Set your desired text color
-                  fontSize: 16,
+              Flexible(
+                child: Text(
+                  'Your vehicle type is $vehicleType',
+                  style: TextStyle(
+                    color: AppColors.buttonTextColor, // Set your desired text color
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],

@@ -13,7 +13,7 @@ class SplashScreen extends GetView<SplashController> {
   Widget build(BuildContext context) {
     controller.checkAuthentication();
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +27,7 @@ class SplashScreen extends GetView<SplashController> {
             Container(
               child: TextWidget(
                 title: 'Splash Screen',
-                textColor: Colors.white,
+                textColor: Colors.black,
               ),
             ),
           ],
