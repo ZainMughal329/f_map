@@ -58,28 +58,48 @@ class MapScreen extends GetView<MapController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: reuseAbleAppBar('Google Map', AppColors.buttonColor, AppColors.buttonTextColor, false),
+      appBar: reuseAbleAppBar('Google Map', AppColors.buttonColor,
+          AppColors.buttonTextColor, false),
       body: FutureBuilder(
         future: controller.checkLocationPermission(),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else {
+            controller.showMarkersList();
+            // controller.getVisibleMarkers();
             return Stack(
               children: [
-                Obx(() => GoogleMap(
-                      initialCameraPosition: CameraPosition(
-                        target: controller.state.currentLocation.value,
-                        zoom: 15.0,
-                      ),
-                      onMapCreated: (GoogleMapController con) {
-                        controller.mapController = con;
-                        // controller.goToCurrentLocation();
-                      },
-                  markers:
-                  Set<Marker>.from(controller.getVisibleMarkers(),),
-
-                    )),
+                Obx(
+                  () => GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: controller.state.currentLocation.value,
+                      zoom: 15.0,
+                      bearing: 0, // Set the initial bearing
+                      tilt: 45.0,
+                    ),
+                    onMapCreated: (GoogleMapController con) {
+                      controller.mapController = con;
+                      controller.goToCurrentLocation();
+                    },
+                    markers: Set<Marker>.from(
+                      controller.getVisibleMarkers(),
+                    ),
+                    trafficEnabled: true,
+                    myLocationEnabled: true,
+                    mapType: MapType.normal,
+                    // zoomControlsEnabled: false, // Hide zoom controls
+                    // compassEnabled: false, // Hide compass
+                    // rotateGesturesEnabled: true, // Disable rotation gestures
+                    // scrollGesturesEnabled: true, // Enable scroll gestures
+                    // tiltGesturesEnabled: true, // Enable tilt gestures
+                    myLocationButtonEnabled: true, // Hide my location button
+                    mapToolbarEnabled: true, // Disable map toolbar
+                    buildingsEnabled: true, // Show 3D buildings if available
+                    // indoorViewEnabled: true, // Disable indoor view
+                    // minMaxZoomPreference: MinMaxZoomPreference(10.0, 20.0),
+                  ),
+                ),
               ],
             );
           }
@@ -87,7 +107,9 @@ class MapScreen extends GetView<MapController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.goToCurrentLocation();
+          // controller.goToCurrentLocation();
+          // print(controller.visibleMarkers);
+          controller.getVisibleMarkers();
         },
         child: Icon(Icons.location_searching),
       ),

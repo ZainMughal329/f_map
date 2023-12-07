@@ -15,62 +15,108 @@ class HomeScreen extends GetView<HomeController> {
   HomeScreen({super.key});
 
 
-  Widget _buildSelectVehicle(
-      String vehicleType, String vehicleLogo, BuildContext context) {
-    return  GestureDetector(
-      onTap: () {
-        if (vehicleType == 'Car') {
-          controller.state.vehicleType = 'Car';
+  // Widget _buildSelectVehicle(
+  //     String vehicleType, String vehicleLogo, BuildContext context) {
+  //   return  GestureDetector(
+  //     onTap: () {
+  //       if (vehicleType == 'Car') {
+  //         controller.state.vehicleType = 'Car';
+  //
+  //         showFeedbackDialog(context,controller.state.feddBackCon);
+  //       } else if (vehicleType == 'Bus') {
+  //         controller.state.vehicleType = 'Bus';
+  //         showFeedbackDialog(context,controller.state.feddBackCon);
+  //       } else if (vehicleType == 'Bike') {
+  //         controller.state.vehicleType = 'Bike';
+  //         showFeedbackDialog(context,controller.state.feddBackCon);
+  //       } else {
+  //         controller.state.vehicleType = 'none';
+  //         // Get.to(() => GMapScreen());
+  //       }
+  //     },
+  //     child: Container(
+  //       height: 54,
+  //       width: 280,
+  //       padding: EdgeInsets.all(10),
+  //       decoration: BoxDecoration(
+  //         color: AppColors.buttonColor,
+  //         borderRadius: const BorderRadius.only(
+  //           topLeft:Radius.circular(30),
+  //
+  //           bottomRight: Radius.circular(30),
+  //         ),
+  //         boxShadow: [
+  //         ],
+  //       ),
+  //       child: Row(
+  //         mainAxisAlignment: vehicleLogo == ''
+  //             ? MainAxisAlignment.center
+  //             : MainAxisAlignment.start,
+  //         children: [
+  //           vehicleLogo == ''
+  //               ? Container()
+  //               : Container(
+  //             padding: EdgeInsets.only(left: 30, right: 25),
+  //             child: Image.asset('$vehicleLogo.png'),
+  //           ),
+  //           TextWidget(title:
+  //             'Your vehicle type $vehicleType',
+  //               textColor: AppColors.buttonTextColor,
+  //               fontSize: 15,
+  //               fontWeight: FontWeight.normal,
+  //
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-          showFeedbackDialog(context,controller.state.feddBackCon);
-        } else if (vehicleType == 'Bus') {
-          controller.state.vehicleType = 'Bus';
-          showFeedbackDialog(context,controller.state.feddBackCon);
-        } else if (vehicleType == 'Bike') {
-          controller.state.vehicleType = 'Bike';
-          showFeedbackDialog(context,controller.state.feddBackCon);
+  Widget _buildSelectVehicle(String vehicleType, String vehicleLogo, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (vehicleType == 'Car' || vehicleType == 'Bus' || vehicleType == 'Bike') {
+          controller.state.vehicleType = vehicleType;
+          showFeedbackDialog(context, controller.state.feddBackCon);
         } else {
           controller.state.vehicleType = 'none';
           // Get.to(() => GMapScreen());
         }
       },
-      child: Container(
-        height: 54,
-        width: 280,
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AppColors.buttonColor,
-          borderRadius: const BorderRadius.only(
-            topLeft:Radius.circular(30),
-
-            bottomRight: Radius.circular(30),
-          ),
-          boxShadow: [
-          ],
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
         ),
-        child: Row(
-          mainAxisAlignment: vehicleLogo == ''
-              ? MainAxisAlignment.center
-              : MainAxisAlignment.start,
-          children: [
-            vehicleLogo == ''
-                ? Container()
-                : Container(
-              padding: EdgeInsets.only(left: 30, right: 25),
-              child: Image.asset('$vehicleLogo.png'),
-            ),
-            TextWidget(title:
-              'Your vehicle type $vehicleType',
-                textColor: AppColors.buttonTextColor,
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-
-            ),
-          ],
+        color: AppColors.buttonColor, // Set your desired background color
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              if (vehicleLogo.isNotEmpty)
+                Container(
+                  margin: EdgeInsets.only(right: 16),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: AppColors.buttonColor,
+                    backgroundImage: AssetImage('$vehicleLogo.png'),
+                  ),
+                ),
+              Text(
+                'Your vehicle type is $vehicleType',
+                style: TextStyle(
+                  color: AppColors.buttonTextColor, // Set your desired text color
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +125,7 @@ class HomeScreen extends GetView<HomeController> {
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 50, horizontal: 0),
+            padding: EdgeInsets.symmetric(vertical: 50, horizontal: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

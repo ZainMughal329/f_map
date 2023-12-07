@@ -26,24 +26,25 @@ class MapController extends GetxController {
 
   GoogleMapController? mapController;
   Location _location = Location();
+  List<Marker> visibleMarkers = [];
 
   getUpdatedCurrentLocation() async {
     _location.onLocationChanged.listen((LocationData locationData) async {
+
       state.currentLocation.value = LatLng(locationData.latitude!.toDouble(),
           locationData.longitude!.toDouble());
       await FirebaseFirestore.instance
           .collection('location')
           .doc(FirebaseAuth.instance.currentUser!.uid.toString())
           .update({
-        'lat' : locationData.latitude!.toDouble(),
-        'lang' : locationData.longitude!.toDouble()
-      }
-
-          )
-          .then((value) {
+        'lat': locationData.latitude!.toDouble(),
+        'lang': locationData.longitude!.toDouble()
+      }).then((value) {
+        goToCurrentLocation();
         print('before');
         showMarkersList();
-        goToCurrentLocation();
+        getVisibleMarkers();
+
         print('new location fetched');
       }).onError((error, stackTrace) {
         print('failed');
@@ -76,14 +77,18 @@ class MapController extends GetxController {
         locationData.latitude!,
         locationData.longitude!,
       );
+      // CameraPosition currentCameraPosition = await mapController!.
       mapController!.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-            target: LatLng(
-              locationData.latitude!,
-              locationData.longitude!,
-            ),
-            zoom: 15.0,
+            // target: LatLng(
+            //   locationData.latitude!,
+            //   locationData.longitude!,
+            // ),
+            target: state.currentLocation.value,
+            zoom: 20.0,
+            // bearing: 0, // Set the initial bearing
+            tilt: 45.0,
           ),
         ),
       );
@@ -91,34 +96,42 @@ class MapController extends GetxController {
   }
 
   showMarkersList() async {
+    // state.markerList.clear();
     final snap = await FirebaseFirestore.instance.collection('location').get();
+    // print((state.markerList..toString()));
     print('len:' + snap.docs.length.toString());
+
     if (snap.docs.isNotEmpty) {
+      //adsfsadfasdf
+      state.markerList.clear();
       for (var mar in snap.docs) {
-        print('lat:' + mar['lat'].toString());
-        print('lang:' + mar['lang'].toString());
+        print("markerId123"+mar.id.toString());
+        // print('lat:' + mar['lat'].toString());
+        // print('lang:' + mar['lang'].toString());
 
         final lat = mar['lat'] as double?;
         final lng = mar['lang'] as double?;
         var marker = Marker(
-          markerId: MarkerId(FirebaseAuth.instance.currentUser!.uid.toString()),
+          markerId: MarkerId(mar.id.toString()),
           position: LatLng(lat!, lng!),
         );
         state.markerList.add(marker);
+        // print(state.markerList.toString());
       }
+
+      getVisibleMarkers();
     }
   }
 
+
+
   List<Marker> getVisibleMarkers() {
-
-    List<Marker> visibleMarkers = [];
-
-
+    visibleMarkers.clear();
     for (var marker in state.markerList) {
       visibleMarkers.add(marker);
     }
     print('visibleMarkers length : ' + visibleMarkers.length.toString());
+    print(visibleMarkers.toString());
     return visibleMarkers;
-
   }
 }
