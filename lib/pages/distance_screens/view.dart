@@ -12,6 +12,7 @@ class DistanceView extends GetView<DistanceScreenController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.getUpdatedCurrentLocation();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -40,15 +41,136 @@ class DistanceView extends GetView<DistanceScreenController> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
+                double vehicleLat = double.parse(snapshot.data!.docs[index]['lat'].toString());
+                double vehicleLong = double.parse(snapshot.data!.docs[index]['lang'].toString());
+                double dis =  controller.calculateDistance(vehicleLat, vehicleLong);
+                print("disIs"+dis.toString());
+                String uId = controller.auth.currentUser!.uid.toString();
+                return Obx((){
 
-                return cardWidget(
-                    snapshot.data!.docs[index]['userName'].toString(),
-                  snapshot.data!.docs[index]['vehicleType'].toString(),
-                  snapshot.data!.docs[index]['vehicleNum'].toString(),
-                  double.parse(snapshot.data!.docs[index]['speed'].toString()).toStringAsFixed(3),
-                    '10',
-                    '10',
-                );
+                  // return cardWidget(
+                  //   snapshot.data!.docs[index]['userName'].toString(),
+                  //   snapshot.data!.docs[index]['vehicleType'].toString(),
+                  //   snapshot.data!.docs[index]['vehicleNum'].toString(),
+                  //   double.parse(snapshot.data!.docs[index]['speed'].toString()).toStringAsFixed(3),
+                  //   '10',
+                  //   controller.state.diss.value,
+                  // );
+
+                  return snapshot.data!.docs[index]['id'].toString() == uId ? Container(
+                    width: controller.state.diss.value,
+                  ) : Padding(
+                    padding: const EdgeInsets.only(top:10,left: 5,right: 5),
+                    child: Container(
+                      child: Stack(
+                        children: [
+                          Card(
+                            elevation: 5,
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    snapshot.data!.docs[index]['userName'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    snapshot.data!.docs[index]['vehicleType'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    snapshot.data!.docs[index]['vehicleNum'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    double.parse(snapshot.data!.docs[index]['speed'].toString()).toStringAsFixed(3),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'EST arrival time: 10sec',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  LinearGauge(
+                                    gaugeOrientation: GaugeOrientation.horizontal,
+                                    linearGaugeBoxDecoration: LinearGaugeBoxDecoration(
+                                      thickness: 8,
+                                      borderRadius: 10,
+                                      linearGradient: LinearGradient(
+                                        colors: [
+                                          AppColors.warningColor,
+                                          AppColors.yellowColor,
+                                          AppColors.buttonColor,
+                                        ],
+                                      ),
+                                    ),
+                                    end: 200.0,
+                                    steps: 20.0,
+                                    enableGaugeAnimation: true,
+                                    rulers: RulerStyle(
+                                      rulerPosition: RulerPosition.bottom,
+                                      showLabel: true,
+                                    ),
+                                    pointers: [
+                                      Pointer(
+                                        value: 0,
+                                        labelStyle: TextStyle(
+                                          color: AppColors.textColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        shape: PointerShape.triangle,
+                                        showLabel: true,
+                                        color: AppColors.buttonColor,
+                                        height: 30,
+                                        width: 20,
+                                      ),
+                                      Pointer(
+                                        value: controller.state.diss.value,
+                                        labelStyle: TextStyle(
+                                          color: AppColors.textColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        shape: PointerShape.triangle,
+                                        showLabel: true,
+                                        color: AppColors.warningColor,
+                                        height: 30,
+                                        width: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              top: 15,
+                              right: 30,
+                              child: Icon(Icons.car_crash,size: 100,color: AppColors.buttonColor,)),
+                        ],
+                      ),
+                    ),
+                  );
+                });
 
                 // return Padding(
                 //   padding: const EdgeInsets.only(top:10,left: 5,right: 5),

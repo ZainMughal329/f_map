@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: RoutesName.splashScreen,
+      initialRoute: RoutesName.distanceScreen,
       getPages: AppRoutes.routes,
     );
   }

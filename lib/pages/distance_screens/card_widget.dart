@@ -1,10 +1,12 @@
 
 import 'package:f_map/components/colors/app_colors.dart';
+import 'package:f_map/pages/distance_screens/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geekyants_flutter_gauges/geekyants_flutter_gauges.dart';
+import 'package:get/get.dart';
 
-Widget cardWidget (String name, String type ,String number, String speed , String arrivalTime , String distance){
+Widget cardWidget (String name, String type ,String number, String speed , String arrivalTime , double distance){
   return Padding(
     padding: const EdgeInsets.only(top:10,left: 5,right: 5),
     child: Container(
@@ -91,7 +93,7 @@ Widget cardWidget (String name, String type ,String number, String speed , Strin
                         width: 20,
                       ),
                       Pointer(
-                        value: 80,
+                        value: distance,
                         labelStyle: TextStyle(
                           color: AppColors.textColor,
                           fontWeight: FontWeight.bold,
