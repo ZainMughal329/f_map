@@ -31,35 +31,45 @@ class LoginController extends GetxController {
   void loginUserWithEmailAndPassword(String email, password) async {
     setLoading(true);
     try {
-      await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        SessionController().userId = value.user!.uid.toString();
-
-        StorePrefrences sp = StorePrefrences();
-        sp.setIsFirstOpen(true);
-        state.check.fire();
+      if(email == 'admin@admin.com' && password == 'admin@123') {
         Future.delayed(
           Duration(seconds: 3),
-          () {
-            Get.offAllNamed(RoutesName.homeScreen);
-            setLoading(false);
+              () {
+                setLoading(false);
+            Get.offAllNamed(RoutesName.adminScreen);
           },
         );
+      } else {
+        await auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((value) async {
+          SessionController().userId = value.user!.uid.toString();
+
+          StorePrefrences sp = StorePrefrences();
+          sp.setIsFirstOpen(true);
+          state.check.fire();
+          Future.delayed(
+            Duration(seconds: 3),
+                () {
+              Get.offAllNamed(RoutesName.homeScreen);
+              setLoading(false);
+            },
+          );
 
 
-        state.emailCon.clear();
-        state.passCon.clear();
-      }).onError((error, stackTrace) {
-        Snackbar.showSnackBar("Error", error.toString(), Icons.error_outline);
-        state.error.fire();
-        Future.delayed(
-          Duration(seconds: 3),
-          () {
-            setLoading(false);
-          },
-        );
-      });
+          state.emailCon.clear();
+          state.passCon.clear();
+        }).onError((error, stackTrace) {
+          Snackbar.showSnackBar("Error", error.toString(), Icons.error_outline);
+          state.error.fire();
+          Future.delayed(
+            Duration(seconds: 3),
+                () {
+              setLoading(false);
+            },
+          );
+        });
+      }
     } on FirebaseAuthException catch (e) {
       Snackbar.showSnackBar("Error", e.toString(), Icons.error_outline);
       state.error.fire();

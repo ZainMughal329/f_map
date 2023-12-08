@@ -1,4 +1,5 @@
- import 'package:f_map/components/colors/app_colors.dart';
+
+import 'package:f_map/components/colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geekyants_flutter_gauges/geekyants_flutter_gauges.dart';
@@ -76,7 +77,7 @@ Widget cardWidget (String name, String type ,String number, String speed , Strin
                       rulerPosition: RulerPosition.bottom,
                       showLabel: true,
                     ),
-                    pointers: const [
+                    pointers: [
                       Pointer(
                         value: 0,
                         labelStyle: TextStyle(

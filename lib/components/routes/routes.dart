@@ -1,4 +1,5 @@
 import 'package:f_map/components/routes/routes_name.dart';
+import 'package:f_map/pages/admin/index.dart';
 import 'package:f_map/pages/distance_screens/bindings.dart';
 import 'package:f_map/pages/distance_screens/view.dart';
 import 'package:f_map/pages/home_screen/index.dart';
@@ -45,6 +46,13 @@ class AppRoutes {
       name: RoutesName.mapScreen,
       page: () => MapScreen(),
       binding: MapBindings(),
+      transition: Transition.zoom,
+    ),
+
+    GetPage(
+      name: RoutesName.adminScreen,
+      page: () => AdminScreen(),
+      binding: AdminBindings(),
       transition: Transition.zoom,
     ),
     GetPage(
