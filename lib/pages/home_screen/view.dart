@@ -123,7 +123,8 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: reuseAbleAppBar('Vehicle Selection', AppColors.buttonColor, AppColors.buttonTextColor, false),
+      appBar: reuseAbleAppBar('Vehicle Selection', AppColors.buttonColor, AppColors.buttonTextColor, false
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(

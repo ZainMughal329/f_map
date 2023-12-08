@@ -6,5 +6,6 @@ class RoutesName {
 
   static final String homeScreen = '/homeScreen';
   static final String mapScreen = '/mapScreen';
+  static final String distanceScreen = '/distanceScreen';
 
 }
