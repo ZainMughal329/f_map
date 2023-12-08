@@ -7,6 +7,7 @@ class LocationModel {
   final String vehicleNum;
   final double lat;
   final double lang;
+  final double speed;
 
   LocationModel({
     this.id = '',
@@ -15,6 +16,8 @@ class LocationModel {
     required this.vehicleNum,
     required this.lat,
     required this.lang,
+    required this.speed,
+
   });
 
   toJson() {
@@ -25,6 +28,7 @@ class LocationModel {
       'vehicleNum': vehicleNum,
       'lat': lat,
       'lang': lang,
+      'speed' : speed,
     };
   }
 
@@ -39,6 +43,7 @@ class LocationModel {
       vehicleNum: json["vehicleNum"],
       lat: json['lat'],
       lang: json['lang'],
+      speed: json['speed'],
     );
   }
 }

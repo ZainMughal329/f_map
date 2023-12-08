@@ -44,7 +44,8 @@ dependencies:
   rive:
   shared_preferences:
   location:
-  geekyants_flutter_gauges: ^1.0.3
+  syncfusion_flutter_gauges:
+
 
 dev_dependencies:
   flutter_test:

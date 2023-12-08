@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
 class HomeState{
@@ -6,6 +7,7 @@ class HomeState{
   TextEditingController feddBackCon = TextEditingController();
   String vehicleType = '';
   String modelNum = '';
+  RxString userName = ''.obs;
 
 
 }

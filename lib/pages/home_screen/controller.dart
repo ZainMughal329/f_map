@@ -16,6 +16,7 @@ class HomeController extends GetxController {
       "active",
       autoplay: false,
     );
+    fetchUserName();
     super.onInit();
   }
 
@@ -26,11 +27,11 @@ class HomeController extends GetxController {
         .set(
           LocationModel(
             id: FirebaseAuth.instance.currentUser!.uid.toString(),
-                  userName: 'userName',
+                  userName: state.userName.value,
                   vehicleType: state.vehicleType,
                   vehicleNum: state.modelNum,
                   lat: 0.0,
-                  lang: 0.0)
+                  lang: 0.0, speed: 0.0)
               .toJson(),
         )
         .then((value) {
@@ -38,5 +39,15 @@ class HomeController extends GetxController {
     }).onError((error, stackTrace) {
       print('error');
     });
+  }
+
+  fetchUserName() async {
+    final snap = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+    if(snap.exists){
+      final data = snap.data() as Map<String,dynamic>;
+      final name = data['userName'];
+      state.userName.value = name.toString();
+
+    }
   }
 }

@@ -122,6 +122,7 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchUserName();
     return Scaffold(
       appBar: reuseAbleAppBar('Vehicle Selection', AppColors.buttonColor, AppColors.buttonTextColor, false
       ),
