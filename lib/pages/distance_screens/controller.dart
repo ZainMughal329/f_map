@@ -19,7 +19,6 @@ class DistanceScreenController extends GetxController {
   getUpdatedCurrentLocation() async {
 
     _location.onLocationChanged.listen((LocationData locationData) async {
-      print('called');
       state.currentLat = locationData.latitude!.toDouble();
       state.currentLang = locationData.longitude!.toDouble();
       state.speed = locationData.speed! * 3.6;
@@ -47,27 +46,48 @@ class DistanceScreenController extends GetxController {
   }
 
 
-  double calculateDistance(double lat1, double lon1) {
+  double calculateDistanceAndTime(double lat1, double lon1, double speed) {
 
     // fetchUserDetails();
     const double earthRadius = 6371; // in meters
 
-    // double dLat = _toRadians( state.currentLat - lat1);
-    double dLat = _toRadians(lat1 - state.currentLat );
-    // double dLon = _toRadians(state.currentLang - lon1);
-    double dLon = _toRadians(lon1 - state.currentLang );
+    double dLat = _toRadians( state.currentLat - lat1);
+    // double dLat = _toRadians(lat1 - state.currentLat );
+    double dLon = _toRadians(state.currentLang - lon1);
+    // double dLon = _toRadians(lon1 - state.currentLang );
 
     double a = pow(sin(dLat / 2), 2) +
         cos(_toRadians(lat1)) * cos(_toRadians(state.currentLat)) * pow(sin(dLon / 2), 2);
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-    double distance = (earthRadius * c)+100;
+    // distance in kms
+    double distance = (earthRadius * c);
+
+
     state.diss.value = double.parse(distance.toStringAsFixed(2));
+    double FixedDiss = double.parse(distance.toStringAsFixed(2));
+    state.est.value = calculateTime(speed, FixedDiss);
     return state.diss.value;
   }
 
   double _toRadians(double degree) {
     return degree * pi / 180;
+  }
+
+
+
+  double calculateTime(double speedKmPerHour, double distanceMeters) {
+    // Convert speed from km/h to m/s
+    double speedMetersPerSecond = speedKmPerHour * 1000 / 3600;
+
+    // Calculate time in seconds
+    double timeSeconds = distanceMeters / speedMetersPerSecond;
+
+    // Convert time from seconds to hours
+    double timeMin = timeSeconds / 60;
+
+
+    return timeMin;
   }
   
   // fetchUserDetails()async{

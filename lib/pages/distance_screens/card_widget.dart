@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:geekyants_flutter_gauges/geekyants_flutter_gauges.dart';
 import 'package:get/get.dart';
 
-Widget cardWidget (String name, String type ,String number, String speed , String arrivalTime , double distance){
+Widget cardWidget (String name, String type ,String number, String speed , double distance , double est){
   return Padding(
     padding: const EdgeInsets.only(top:10,left: 5,right: 5),
     child: Container(
@@ -52,7 +52,7 @@ Widget cardWidget (String name, String type ,String number, String speed , Strin
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'EST arrival time: 10sec',
+                    'EST arrival time(min): $est',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -87,7 +87,7 @@ Widget cardWidget (String name, String type ,String number, String speed , Strin
                           fontWeight: FontWeight.bold,
                         ),
                         shape: PointerShape.triangle,
-                        showLabel: true,
+                        // showLabel: true,
                         color: AppColors.buttonColor,
                         height: 30,
                         width: 20,
@@ -113,7 +113,11 @@ Widget cardWidget (String name, String type ,String number, String speed , Strin
           Positioned(
               top: 15,
               right: 30,
-              child: Icon(Icons.car_crash,size: 100,color: AppColors.buttonColor,)),
+              child: type == "Car" ? Icon(Icons.car_crash,size: 100,color: AppColors.buttonColor,):
+          type == "Bike" ? Icon(Icons.directions_bike_outlined,size: 100,color: AppColors.buttonColor,):
+              type == "Bus" ? Icon(Icons.directions_bike_outlined,size: 100,color: AppColors.buttonColor,) :
+              Icon(Icons.directions_walk,size: 100,color: AppColors.buttonColor,)
+          ),
         ],
       ),
     ),

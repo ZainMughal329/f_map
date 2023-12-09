@@ -124,7 +124,9 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     controller.fetchUserName();
     return Scaffold(
-      appBar: reuseAbleAppBar('Vehicle Selection', AppColors.buttonColor, AppColors.buttonTextColor, false
+      appBar: reuseAbleAppBar('Vehicle Selection', AppColors.buttonColor, AppColors.buttonTextColor, false,
+
+
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -140,6 +142,10 @@ class HomeScreen extends GetView<HomeController> {
                 _buildSelectVehicle('Bike', 'assets/images/bycicle', context),
                 SizedBox(height: 30,),
                 _buildSelectVehicle('Nothing', 'assets/images/walk', context),
+                SizedBox(height: 30,),
+                RoundButton(title: 'To Distance Screen', onPress: (){
+                  Get.toNamed(RoutesName.distanceScreen);
+                }),
                 // _buildSelectVehicle('Car', 'assets/images/car'),
               ],
             ),
