@@ -45,19 +45,66 @@
 //     );
 //   }
 // }
+import 'dart:math';
+
 import 'package:f_map/components/colors/app_colors.dart';
 import 'package:f_map/components/reuseable/reuseable_app_bar.dart';
 import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/map_screen/controller.dart';
+import 'package:f_map/pages/map_screen/widget/speedometer_widget.dart';
+import 'package:f_map/pages/map_screen/widget/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:rive/rive.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class MapScreen extends GetView<MapController> {
+import '../../utils/rive_utils.dart';
+import '../drawer/view.dart';
+
+class MapScreen extends StatefulWidget {
   @override
+  State<MapScreen> createState() => _MapScreenState();
+}
+
+final controller = Get.put(MapController());
+late SMIBool isSideBarClosed;
+bool isSideMenuClosed = true;
+late AnimationController _animationController;
+late Animation<double> animation;
+late Animation<double> sclAnimation;
+
+class _MapScreenState extends State<MapScreen>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    )..addListener(() {
+        setState(() {});
+      });
+    animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+          parent: _animationController, curve: Curves.fastOutSlowIn),
+    );
+    sclAnimation = Tween<double>(begin: 1, end: 0.8).animate(
+      CurvedAnimation(
+          parent: _animationController, curve: Curves.fastOutSlowIn),
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _animationController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
@@ -78,14 +125,13 @@ class MapScreen extends GetView<MapController> {
                 onPressed: () {
                   Navigator.pop(context);
 
-                  SystemNavigator.pop().then((value)async{
+                  SystemNavigator.pop().then((value) async {
                     // await _controller.locRef.child(SessionController().userId.toString()).remove();
 
                     controller.deleteCurrentNode();
-                  }).onError((error, stackTrace){
+                  }).onError((error, stackTrace) {
                     // Utils.showToast(error.toString());
                     print('error');
-
                   });
                 },
               ),
@@ -97,8 +143,8 @@ class MapScreen extends GetView<MapController> {
         return false;
       },
       child: Scaffold(
-        appBar: reuseAbleAppBar('Google Map', AppColors.buttonColor,
-            AppColors.buttonTextColor, false),
+        // appBar: reuseAbleAppBar('Google Map', AppColors.buttonColor,
+        //     AppColors.buttonTextColor, false),
         body: FutureBuilder(
           future: controller.checkLocationPermission(),
           builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
@@ -109,126 +155,106 @@ class MapScreen extends GetView<MapController> {
               // controller.getVisibleMarkers();
               return Stack(
                 children: [
-                  Obx(
-                    () => GoogleMap(
-                      initialCameraPosition: CameraPosition(
-                        target: controller.state.currentLocation.value,
-                        zoom: 15.0,
-                        bearing: 0, // Set the initial bearing
-                        tilt: 45.0,
-                      ),
-                      onMapCreated: (GoogleMapController con) {
-                        controller.mapController = con;
-                        controller.goToCurrentLocation();
-                      },
-                      markers: Set<Marker>.from(
-                        controller.getVisibleMarkers(),
-                      ),
-                      trafficEnabled: true,
-                      myLocationEnabled: true,
-                      mapType: MapType.normal,
-                      // zoomControlsEnabled: false, // Hide zoom controls
-                      // compassEnabled: false, // Hide compass
-                      // rotateGesturesEnabled: true, // Disable rotation gestures
-                      // scrollGesturesEnabled: true, // Enable scroll gestures
-                      // tiltGesturesEnabled: true, // Enable tilt gestures
-                      myLocationButtonEnabled: true, // Hide my location button
-                      mapToolbarEnabled: true, // Disable map toolbar
-                      buildingsEnabled: true, // Show 3D buildings if available
-                      // indoorViewEnabled: true, // Disable indoor view
-                      // minMaxZoomPreference: MinMaxZoomPreference(10.0, 20.0),
-                    ),
+                  AnimatedPositioned(
+                    duration: Duration(milliseconds: 200),
+                    curve: Curves.fastOutSlowIn,
+                    height: MediaQuery.of(context).size.height,
+                    width: 288,
+                    left: isSideMenuClosed ? -288 : 0,
+                    top: 0,
+                    child: SideMenu(),
                   ),
-
-                  Positioned(
-                    bottom: 20,
-                    left: 20,
-                    child: GetBuilder<MapController>(
-                      builder: (con) => Container(
-                        height: 110,
-                        width: 110,
-                        child: SfRadialGauge(
-                          axes: <RadialAxis>[
-                            RadialAxis(
-                              minimum: 0,
-                              maximum: 200,
-                              labelOffset: 10,
-                              axisLineStyle: AxisLineStyle(
-                                  thicknessUnit: GaugeSizeUnit.factor,
-                                  thickness: 0.03),
-                              majorTickStyle: MajorTickStyle(
-                                  length: 2,
-                                  thickness: 0.5,
-                                  color: Colors.black),
-                              minorTickStyle: MinorTickStyle(
-                                  length: 2,
-                                  thickness: 0.5,
-                                  color: Colors.black),
-                              axisLabelStyle: GaugeTextStyle(
-                                  color: Colors.black,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 10),
-                              ranges: <GaugeRange>[
-                                GaugeRange(
-                                  startValue: 0,
-                                  endValue: 200,
-                                  sizeUnit: GaugeSizeUnit.factor,
-                                  startWidth: 0.03,
-                                  endWidth: 0.03,
-                                  gradient: SweepGradient(
-                                    colors: const <Color>[
-                                      Colors.green,
-                                      Colors.yellow,
-                                      Colors.red
-                                    ],
-                                    stops: const <double>[0.0, 0.5, 1],
+                  Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001)
+                      ..rotateY(
+                          animation.value - 30 * animation.value * pi / 180),
+                    child: Transform.translate(
+                      offset: Offset(animation.value * 265, 0),
+                      child: Transform.scale(
+                        scale: sclAnimation.value,
+                        child: ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(isSideMenuClosed ? 0 : 12),
+                          child: Stack(
+                            children: [
+                              Obx(
+                                () => GoogleMap(
+                                  initialCameraPosition: CameraPosition(
+                                    target:
+                                        controller.state.currentLocation.value,
+                                    zoom: 15.0,
+                                    bearing: 0, // Set the initial bearing
+                                    tilt: 45.0,
+                                  ),
+                                  onMapCreated: (GoogleMapController con) {
+                                    controller.mapController = con;
+                                    controller.goToCurrentLocation();
+                                  },
+                                  markers: Set<Marker>.from(
+                                    controller.getVisibleMarkers(),
+                                  ),
+                                  trafficEnabled: true,
+                                  myLocationEnabled: true,
+                                  mapType: MapType.normal,
+                                  // zoomControlsEnabled: false, // Hide zoom controls
+                                  // compassEnabled: false, // Hide compass
+                                  // rotateGesturesEnabled: true, // Disable rotation gestures
+                                  // scrollGesturesEnabled: true, // Enable scroll gestures
+                                  // tiltGesturesEnabled: true, // Enable tilt gestures
+                                  myLocationButtonEnabled: true,
+                                  // Hide my location button
+                                  mapToolbarEnabled: true,
+                                  // Disable map toolbar
+                                  buildingsEnabled:
+                                      true, // Show 3D buildings if available
+                                  // indoorViewEnabled: true, // Disable indoor view
+                                  // minMaxZoomPreference: MinMaxZoomPreference(10.0, 20.0),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 20,
+                                left: 20,
+                                child: GetBuilder<MapController>(
+                                  builder: (con) => SpeedoMeterWidget(
+                                    speed: con.state.speed,
                                   ),
                                 ),
-                              ],
-                              pointers: <GaugePointer>[
-                                NeedlePointer(
-                                  value: con.state.speed,
-                                  needleLength: 0.95,
-                                  enableAnimation: true,
-                                  animationType: AnimationType.ease,
-                                  needleStartWidth: 0.20,
-                                  needleEndWidth: 2,
-                                  needleColor: Colors.red,
-                                  knobStyle: KnobStyle(knobRadius: 0.05),
-                                ),
-                              ],
-                              annotations: <GaugeAnnotation>[
-                                GaugeAnnotation(
-                                    widget: Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            con.state.speed
-                                                .toStringAsFixed(2)
-                                                .toString(),
-                                            style: TextStyle(
-                                              fontSize: 7,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 05),
-                                          Text(
-                                            'kmph',
-                                            style: TextStyle(
-                                                fontSize: 7,
-                                                fontWeight:
-                                                FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    angle: 90,
-                                    positionFactor: 0.75),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                    ),
+                  ),
+                  AnimatedPositioned(
+                    duration: Duration(milliseconds: 200),
+                    curve: Curves.fastOutSlowIn,
+                    left: isSideMenuClosed ? 0 : 220,
+                    top: -5,
+                    child: MenuBtn(
+                      onPress: () {
+                        isSideBarClosed.value = !isSideBarClosed.value;
+                        if (_animationController.value == 0) {
+                          _animationController.forward();
+                        } else {
+                          _animationController.reverse();
+                        }
+                        setState(() {
+                          isSideMenuClosed = !isSideMenuClosed;
+                        });
+                      },
+                      riveOnInit: (artboard) {
+                        final con = StateMachineController.fromArtboard(
+                            artboard, "State Machine");
+
+                        artboard.addController(con!);
+
+                        isSideBarClosed =
+                            con.findInput<bool>("isOpen") as SMIBool;
+                        isSideBarClosed.value = true;
+                      },
                     ),
                   ),
                 ],
