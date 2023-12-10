@@ -52,6 +52,14 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
                   ),
                   SizedBox(height: 5),
                   Text(
+                    'Remanining Distance: $distance meters',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
                     'EST arrival time(min): $est',
                     style: TextStyle(
                       fontSize: 16,
@@ -72,8 +80,8 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
                         ],
                       ),
                     ),
-                    end: 200.0,
-                    steps: 20.0,
+                    end: 1000.0,
+                    steps: 200.0,
                     enableGaugeAnimation: true,
                     rulers: RulerStyle(
                       rulerPosition: RulerPosition.bottom,

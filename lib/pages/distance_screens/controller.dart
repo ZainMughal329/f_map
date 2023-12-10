@@ -46,49 +46,95 @@ class DistanceScreenController extends GetxController {
   }
 
 
+  double radians(double degrees) {
+    return degrees * (pi / 180.0);
+  }
+
   double calculateDistanceAndTime(double lat1, double lon1, double speed) {
+    // state.diss.value= 0.0;
+    // Radius of the Earth in meters
+    const double R = 6371000.0;
 
-    // fetchUserDetails();
-    const double earthRadius = 6371; // in meters
+    // Convert latitude and longitude from degrees to radians
+    lat1 = radians(lat1);
+    lon1 = radians(lon1);
+    double lat2 = radians(state.currentLat);
+    double lon2 = radians(state.currentLang);
 
-    double dLat = _toRadians( state.currentLat - lat1);
-    // double dLat = _toRadians(lat1 - state.currentLat );
-    double dLon = _toRadians(state.currentLang - lon1);
-    // double dLon = _toRadians(lon1 - state.currentLang );
+    // Differences in coordinates
+    double dlat = lat2 - lat1;
+    double dlon = lon2 - lon1;
 
-    double a = pow(sin(dLat / 2), 2) +
-        cos(_toRadians(lat1)) * cos(_toRadians(state.currentLat)) * pow(sin(dLon / 2), 2);
+    // Haversine formula
+    double a = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-    // distance in kms
-    double distance = (earthRadius * c);
+    // Calculate the distance
+    double distance = R * c;
 
-
-    state.diss.value = double.parse(distance.toStringAsFixed(2));
     double FixedDiss = double.parse(distance.toStringAsFixed(2));
-    state.est.value = calculateTime(speed, FixedDiss);
-    return state.diss.value;
+    state.diss.value = FixedDiss;
+    // calculateTime(speed, FixedDiss);
+    print(FixedDiss);
+
+    return FixedDiss;
   }
 
-  double _toRadians(double degree) {
-    return degree * pi / 180;
-  }
+
+//   double calculateDistanceAndTime(double lat1, double lon1, double speed) {
+// print("current Lat" + state.currentLat.toString());
+// print("current Long" + state.currentLang.toString());
+//     // fetchUserDetails();
+//     const double earthRadius = 6371; // in meters
+//
+//     double dLat = _toRadians( state.currentLat - lat1);
+//     // double dLat = _toRadians(lat1 - state.currentLat );
+//     double dLon = _toRadians(state.currentLang - lon1);
+//     // double dLon = _toRadians(lon1 - state.currentLang );
+//
+//     double a = pow(sin(dLat / 2), 2) +
+//         cos(_toRadians(lat1)) * cos(_toRadians(state.currentLat)) * pow(sin(dLon / 2), 2);
+//     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+//
+//     // distance in kms
+//     double distance = (earthRadius * c);
+//
+//
+//     state.diss.value = double.parse(distance.toStringAsFixed(2));
+//     double FixedDiss = double.parse(distance.toStringAsFixed(2));
+//     state.est.value = calculateTime(speed, FixedDiss);
+//     return state.diss.value;
+//   }
+//
+//   double _toRadians(double degree) {
+//     return degree * pi / 180;
+//   }
 
 
-
-  double calculateTime(double speedKmPerHour, double distanceMeters) {
-    // Convert speed from km/h to m/s
-    double speedMetersPerSecond = speedKmPerHour * 1000 / 3600;
+  double calculateTime(double distance, double speed) {
+    // Convert speed from Km/h to meters per second
+    double speedInMetersPerSecond = speed * (1000.0 / 3600.0);
 
     // Calculate time in seconds
-    double timeSeconds = distanceMeters / speedMetersPerSecond;
-
-    // Convert time from seconds to hours
-    double timeMin = timeSeconds / 60;
-
-
-    return timeMin;
+    double timeInSeconds = distance / speedInMetersPerSecond;
+    state.est.value = timeInSeconds / 60 ;
+print(state.est.value);
+    return state.est.value ;
   }
+
+  // double calculateTime(double speedKmPerHour, double distanceMeters) {
+  //   // Convert speed from km/h to m/s
+  //   double speedMetersPerSecond = speedKmPerHour * 1000 / 3600;
+  //
+  //   // Calculate time in seconds
+  //   double timeSeconds = distanceMeters / speedMetersPerSecond;
+  //
+  //   // Convert time from seconds to hours
+  //   double timeMin = timeSeconds / 60;
+  //
+  //
+  //   return timeMin;
+  // }
   
   // fetchUserDetails()async{
   //   DocumentSnapshot user = await locRef.doc(SessionController().userId.toString()).get();
