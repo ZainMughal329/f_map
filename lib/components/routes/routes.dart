@@ -2,6 +2,7 @@ import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/admin/index.dart';
 import 'package:f_map/pages/distance_screens/bindings.dart';
 import 'package:f_map/pages/distance_screens/view.dart';
+import 'package:f_map/pages/drawer/index.dart';
 import 'package:f_map/pages/home_screen/index.dart';
 import 'package:f_map/pages/map_screen/index.dart';
 import 'package:f_map/pages/onboarding_screen/index.dart';
@@ -59,6 +60,12 @@ class AppRoutes {
       name: RoutesName.distanceScreen,
       page: () => DistanceView(),
       binding: DistanceScreenBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: RoutesName.drawer,
+      page: () => SideMenu(),
+      binding: DrawerBindings(),
       transition: Transition.zoom,
     ),
   ];

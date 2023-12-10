@@ -1,4 +1,8 @@
+import 'package:f_map/components/reuseable/text_widget.dart';
+import 'package:f_map/components/routes/routes_name.dart';
+import 'package:f_map/pages/drawer/index.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
 import '../../utils/rive_assets.dart';
@@ -12,10 +16,11 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  RiveAsset selectedMenu = sideMenu.first;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(DrawerSideMenuController());
+    RiveAsset selectedMenu = sideMenu.first;
     return Scaffold(
       body: Container(
         width: 288,
@@ -31,13 +36,13 @@ class _SideMenuState extends State<SideMenu> {
                   color: Colors.white,
                 ),
               ),
-              title: Text(
-                'Hamza Mateen',
-                style: TextStyle(color: Colors.white),
+              title: TextWidget(title:
+                controller.state.userName.value.capitalizeFirst.toString(),
+                textColor: Colors.white,
               ),
-              subtitle: Text(
-                'Android Developer',
-                style: TextStyle(color: Colors.white),
+              subtitle: TextWidget(title:
+              controller.state.email.value.toString(),
+                textColor: Colors.white,
               ),
             ),
             Padding(
@@ -59,6 +64,8 @@ class _SideMenuState extends State<SideMenu> {
                       selectedMenu = menu;
                     });
                     menu.input!.change(false);
+                    Get.offAllNamed(menu.routeName);
+
                     // Navigator.pop(context);
                   });
                 },
@@ -143,16 +150,16 @@ class SideMenuTile extends StatelessWidget {
 }
 
 List<RiveAsset> sideMenu = [
-  RiveAsset('assets/riveAssets/icons.riv',
+  RiveAsset('assets/riveAssets/icons.riv', RoutesName.homeScreen,
       artboard: "HOME", stateMachineName: "HOME_interactivity", title: "Home"),
-  RiveAsset('assets/riveAssets/icons.riv',
+  RiveAsset('assets/riveAssets/icons.riv',RoutesName.distanceScreen,
       artboard: "SEARCH",
       stateMachineName: "SEARCH_Interactivity",
       title: "Search"),
-  RiveAsset('assets/riveAssets/icons.riv',
+  RiveAsset('assets/riveAssets/icons.riv',RoutesName.loginScreen,
       artboard: "LIKE/STAR",
       stateMachineName: "STAR_Interactivity",
       title: "Favorites"),
-  RiveAsset('assets/riveAssets/icons.riv',
+  RiveAsset('assets/riveAssets/icons.riv',RoutesName.adminScreen,
       artboard: "CHAT", stateMachineName: "CHAT_Interactivity", title: "Help"),
 ];
