@@ -105,7 +105,7 @@ AssetsAudioPlayer.playAndForget(Audio("assets/sound/alert.mp3"),);
     double FixedDiss = double.parse(distance.toStringAsFixed(2));
     state.diss.value = FixedDiss;
     // calculateTime(speed, FixedDiss);
-    print(FixedDiss);
+
 
     return FixedDiss;
   }
@@ -148,7 +148,7 @@ AssetsAudioPlayer.playAndForget(Audio("assets/sound/alert.mp3"),);
     // Calculate time in seconds
     double timeInSeconds = distance / speedInMetersPerSecond;
     state.est.value = double.parse(timeInSeconds.toStringAsFixed(1))  ;
-    print(state.est.value);
+
     return state.est.value ;
   }
 
