@@ -1,8 +1,10 @@
 import 'package:f_map/components/routes/routes_name.dart';
+import 'package:f_map/pages/about_us/index.dart';
 import 'package:f_map/pages/admin/index.dart';
 import 'package:f_map/pages/distance_screens/bindings.dart';
 import 'package:f_map/pages/distance_screens/view.dart';
 import 'package:f_map/pages/drawer/index.dart';
+import 'package:f_map/pages/faq_view/index.dart';
 import 'package:f_map/pages/home_screen/index.dart';
 import 'package:f_map/pages/map_screen/index.dart';
 import 'package:f_map/pages/onboarding_screen/index.dart';
@@ -53,6 +55,16 @@ class AppRoutes {
       name: RoutesName.profile,
       page: () => ProfileScreen(),
       binding: ProfileBindings(),
+      transition: Transition.zoom,
+    ),GetPage(
+      name: RoutesName.aboutUs,
+      page: () => AboutUsScreen(),
+      binding: ABoutUsBindings(),
+      transition: Transition.zoom,
+    ),GetPage(
+      name: RoutesName.faq,
+      page: () => FAQScreen(),
+      binding: FAQBindings(),
       transition: Transition.zoom,
     ),
 

@@ -40,13 +40,13 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: 300),
     )..addListener(() {
         setState(() {});
       });
     animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
-          parent: _animationController, curve: Curves.fastOutSlowIn),
+          parent: _animationController, curve: Curves.ease),
     );
     sclAnimation = Tween<double>(begin: 1, end: 0.8).animate(
       CurvedAnimation(
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen>
               alignment: Alignment.center,
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.001)
-                ..rotateY(animation.value - 30 * animation.value * pi / 180),
+                ..rotateY(1 * animation.value - 30 * animation.value * pi / 180),
               child: Transform.translate(
                 offset: Offset(animation.value * 265, 0),
                 child: Transform.scale(

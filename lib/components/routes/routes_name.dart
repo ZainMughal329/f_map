@@ -8,6 +8,8 @@ class RoutesName {
   static final String mapScreen = '/mapScreen';
   static final String distanceScreen = '/distanceScreen';
   static final String profile = '/profile';
+  static final String aboutUs = '/aboutUs';
+  static final String faq = '/faq';
 
   static final String drawer = '/drawer';
 

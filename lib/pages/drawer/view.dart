@@ -163,7 +163,7 @@ List<RiveAsset> sideMenu = [
       artboard: "LIKE/STAR",
       stateMachineName: "STAR_Interactivity",
       title: "Favorites"),
-  RiveAsset('assets/riveAssets/icons.riv',RoutesName.adminScreen,
+  RiveAsset('assets/riveAssets/icons.riv',RoutesName.faq,
       artboard: "CHAT", stateMachineName: "CHAT_Interactivity", title: "FAQ's"),
 
 ];

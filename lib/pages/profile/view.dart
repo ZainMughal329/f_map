@@ -109,12 +109,12 @@ class ProfileScreen extends GetView<ProfileController> {
                       Get.toNamed(RoutesName.distanceScreen);
                         },),
                     _reuseAbleListTile(Icons.question_answer_outlined,
-                        Icons.arrow_forward_ios, 'About Us',() {
-                        // Get.toNamed(RoutesName.distanceScreen);
+                        Icons.arrow_forward_ios, "FAQ's",() {
+                        Get.toNamed(RoutesName.faq);
                       },),
                     _reuseAbleListTile(Icons.details_outlined,
                         Icons.arrow_forward_ios, 'About Us',() {
-                        // Get.toNamed(RoutesName.distanceScreen);
+                        Get.toNamed(RoutesName.aboutUs);
                       },),
                     _reuseAbleListTile(Icons.star_rate_outlined,
                         Icons.arrow_forward_ios, 'Rate Us',() {
