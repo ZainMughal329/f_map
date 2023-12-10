@@ -64,7 +64,7 @@ class _SideMenuState extends State<SideMenu> {
                       selectedMenu = menu;
                     });
                     menu.input!.change(false);
-                    Get.offAllNamed(menu.routeName);
+                    Get.toNamed(menu.routeName);
 
                     // Navigator.pop(context);
                   });

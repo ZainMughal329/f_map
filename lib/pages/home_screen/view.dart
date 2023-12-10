@@ -136,8 +136,8 @@ class _HomeScreenState extends State<HomeScreen>
         child: Stack(
           children: [
             AnimatedPositioned(
-              duration: Duration(milliseconds: 200),
-              curve: Curves.fastOutSlowIn,
+              duration: Duration(milliseconds: 10),
+              curve: Curves.ease,
               height: MediaQuery.of(context).size.height,
               width: 288,
               left: isSideMenuClosed ? -288 : 0,
@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen>
               duration: Duration(milliseconds: 200),
               curve: Curves.fastOutSlowIn,
               left: isSideMenuClosed ? 0 : 220,
-              top: 5,
+              top: 0,
               child: MenuBtn(
                 onPress: () {
                   isSideBarClosed.value = !isSideBarClosed.value;
