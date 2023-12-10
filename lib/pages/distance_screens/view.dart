@@ -18,7 +18,7 @@ class DistanceView extends GetView<DistanceScreenController> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
-        stream: controller.ref,
+          stream: controller.ref,
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -29,7 +29,8 @@ class DistanceView extends GetView<DistanceScreenController> {
               );
             }
             if (snapshot.hasError) {
-              Snackbar.showSnackBar('Error', snapshot.error.toString(),Icons.error_outline_outlined);
+              Snackbar.showSnackBar('Error', snapshot.error.toString(),
+                  Icons.error_outline_outlined);
               return Container(
                 child: Text("Snapshot error"),
               );
@@ -47,25 +48,35 @@ class DistanceView extends GetView<DistanceScreenController> {
                 // double dis =  controller.calculateDistance(vehicleLat, vehicleLong);
                 // print("disIs"+dis.toString());
                 // String uId = controller.auth.currentUser!.uid.toString();
-                controller.state.diss.value=0.0;
-                controller.state.est.value=0.0;
-                controller.calculateDistanceAndTime(double.parse(snapshot.data!.docs[index]['lat'].toString(),), double.parse(snapshot.data!.docs[index]['lang'].toString()),double.parse((double.parse(snapshot.data!.docs[index]['speed'].toString())).toStringAsFixed(3)));
-                controller.calculateTime(controller.state.diss.value, double.parse((double.parse(snapshot.data!.docs[index]['speed'].toString())).toStringAsFixed(3)));
-                print( "value"+ controller.state.diss.value.toString());
-                print( controller.state.est.value);
-
-                return snapshot.data!.docs[index]['id'].toString() == SessionController().userId.toString() ?
-                Container() : cardWidget(
-                  snapshot.data!.docs[index]['userName'].toString(),
-                  snapshot.data!.docs[index]['vehicleType'].toString(),
-                  snapshot.data!.docs[index]['vehicleNum'].toString(),
-                  (double.parse(snapshot.data!.docs[index]['speed'].toString())).toStringAsFixed(3),
-                  // controller.calculateDistanceAndTime(double.parse(snapshot.data!.docs[index]['lat'].toString(),), double.parse(snapshot.data!.docs[index]['lang'].toString()),double.parse((double.parse(snapshot.data!.docs[index]['speed'].toString())).toStringAsFixed(3))),
-                    // controller.state.est.value,
-                  controller.state.diss.value,
-                  controller.state.est.value,
-                  // controller.calculateTime(controller.state.diss.value, double.parse((double.parse(snapshot.data!.docs[index]['speed'].toString())).toStringAsFixed(3))),
-                );
+                controller.state.diss.value = 0.0;
+                controller.state.est.value = 0.0;
+                controller.calculateDistanceAndTime(
+                    double.parse(
+                      snapshot.data!.docs[index]['lat'].toString(),
+                    ),
+                    double.parse(snapshot.data!.docs[index]['lang'].toString()),
+                    double.parse((double.parse(
+                            snapshot.data!.docs[index]['speed'].toString()))
+                        .toStringAsFixed(3)));
+                controller.calculateTime(
+                    controller.state.diss.value,
+                    double.parse((double.parse(
+                            snapshot.data!.docs[index]['speed'].toString()))
+                        .toStringAsFixed(3)));
+                return snapshot.data!.docs[index]['id'].toString() ==
+                        SessionController().userId.toString()
+                    ? Container()
+                    : cardWidget(
+                        snapshot.data!.docs[index]['userName'].toString(),
+                        snapshot.data!.docs[index]['vehicleType'].toString(),
+                        snapshot.data!.docs[index]['vehicleNum'].toString(),
+                        (double.parse(
+                                snapshot.data!.docs[index]['speed'].toString()))
+                            .toStringAsFixed(3),
+                        controller.state.diss.value,
+                        controller.state.est.value,
+                        // controller.calculateTime(controller.state.diss.value, double.parse((double.parse(snapshot.data!.docs[index]['speed'].toString())).toStringAsFixed(3))),
+                      );
 
                 // return Padding(
                 //   padding: const EdgeInsets.only(top:10,left: 5,right: 5),

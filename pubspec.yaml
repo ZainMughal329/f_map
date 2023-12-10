@@ -46,6 +46,8 @@ dependencies:
   location:
   syncfusion_flutter_gauges:
   geekyants_flutter_gauges:
+  audioplayers:
+  assets_audio_player: ^3.1.1
 
 
 dev_dependencies:
@@ -75,6 +77,7 @@ flutter:
     - assets/
     - assets/riveAssets/
     - assets/images/
+    - assets/sound/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

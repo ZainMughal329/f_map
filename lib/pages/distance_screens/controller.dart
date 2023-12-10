@@ -1,3 +1,5 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audioplayers.dart' as adp;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_map/components/session_controller/session_controller.dart';
 import 'package:f_map/pages/distance_screens/state.dart';
@@ -14,6 +16,34 @@ class DistanceScreenController extends GetxController {
   final ref = FirebaseFirestore.instance.collection('location').snapshots();
   final locRef = FirebaseFirestore.instance.collection("location");
   Location _location = Location();
+
+  adp.AudioPlayer audioPlayer = adp.AudioPlayer();
+
+
+   playAlertSound() async {
+
+AssetsAudioPlayer.playAndForget(Audio("assets/sound/alert.mp3"),);
+// AssetsAudioPlayer.newPlayer().open(playable);
+//      AssetsAudioPlayer.newPlayer().open(
+//        Audio("assets/sound/alert.mp3"),
+//        autoStart: true,
+//        showNotification: true,
+//      );
+    print('Alert');
+    //  await audioPlayer.play(soundPath as adp.AssetSource).then((value){
+    //    print("sound played");
+    //  });
+    // // int result = await audioPlayer.play('assets/alert_sound.mp3'); // Replace 'assets/alert_sound.mp3' with the path to your sound file
+    //  await audioPlayer.play();
+
+    // if (result == 1) {
+    //   // success
+    //   print('Alert sound played successfully');
+    // } else {
+    //   print('Error playing alert sound');
+    // }
+  }
+
 
 
   getUpdatedCurrentLocation() async {
@@ -117,8 +147,8 @@ class DistanceScreenController extends GetxController {
 
     // Calculate time in seconds
     double timeInSeconds = distance / speedInMetersPerSecond;
-    state.est.value = double.parse(timeInSeconds.toStringAsFixed(3))  ;
-print(state.est.value);
+    state.est.value = double.parse(timeInSeconds.toStringAsFixed(1))  ;
+    print(state.est.value);
     return state.est.value ;
   }
 

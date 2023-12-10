@@ -1,12 +1,17 @@
 
 import 'package:f_map/components/colors/app_colors.dart';
+import 'package:f_map/pages/distance_screens/controller.dart';
 import 'package:f_map/pages/distance_screens/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geekyants_flutter_gauges/geekyants_flutter_gauges.dart';
 import 'package:get/get.dart';
-
+final state = DistanceState();
+final cont = DistanceScreenController();
 Widget cardWidget (String name, String type ,String number, String speed , double distance , double est){
+  if (distance < 100) {
+    cont.playAlertSound();
+  }
   return Padding(
     padding: const EdgeInsets.only(top:10,left: 5,right: 5),
     child: Container(
@@ -60,7 +65,7 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'EST arrival time(sec): $est',
+                    'EST arrival time(sec): $est s',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -108,7 +113,9 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
                         ),
                         shape: PointerShape.triangle,
                         showLabel: true,
-                        color: AppColors.warningColor,
+                        // color: distance >400 && distance <500 ? AppColors.buttonColor : AppColors.warningColor,
+                        // color: AppColors.warningColor,
+                        color: distance>0 && distance <=300 ? AppColors.warningColor : distance>300 && distance<=700 ? AppColors.yellowColor : AppColors.buttonColor,
                         height: 30,
                         width: 20,
                       ),
@@ -121,9 +128,12 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
           Positioned(
               top: 15,
               right: 30,
-              child: type == "Car" ? Icon(Icons.car_crash,size: 100,color: AppColors.buttonColor,):
-          type == "Bike" ? Icon(Icons.directions_bike_outlined,size: 100,color: AppColors.buttonColor,):
-              type == "Bus" ? Icon(Icons.directions_bike_outlined,size: 100,color: AppColors.buttonColor,) :
+              child: type == "Car" ? Icon(Icons.car_crash,size: 100,                          color: distance>0 && distance <=300 ? AppColors.warningColor : distance>300 && distance<=700 ? AppColors.yellowColor : AppColors.buttonColor,
+              ):
+          type == "Bike" ? Icon(Icons.directions_bike_outlined,size: 100   ,                       color: distance>0 && distance <=300 ? AppColors.warningColor : distance>300 && distance<=700 ? AppColors.yellowColor : AppColors.buttonColor,
+          ):
+              type == "Bus" ? Icon(Icons.directions_bike_outlined,size: 100,                          color: distance>0 && distance <=300 ? AppColors.warningColor : distance>300 && distance<=700 ? AppColors.yellowColor : AppColors.buttonColor,
+              ) :
               Icon(Icons.directions_walk,size: 100,color: AppColors.buttonColor,)
           ),
         ],
