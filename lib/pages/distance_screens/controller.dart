@@ -117,7 +117,7 @@ class DistanceScreenController extends GetxController {
 
     // Calculate time in seconds
     double timeInSeconds = distance / speedInMetersPerSecond;
-    state.est.value = timeInSeconds / 60 ;
+    state.est.value = double.parse(timeInSeconds.toStringAsFixed(3))  ;
 print(state.est.value);
     return state.est.value ;
   }

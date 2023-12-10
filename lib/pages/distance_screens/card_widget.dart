@@ -60,7 +60,7 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'EST arrival time(min): $est',
+                    'EST arrival time(sec): $est',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
