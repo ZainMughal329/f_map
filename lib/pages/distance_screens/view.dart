@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_map/components/colors/app_colors.dart';
+import 'package:f_map/components/reuseable/reuseable_app_bar.dart';
 import 'package:f_map/components/reuseable/snackbar.dart';
 import 'package:f_map/components/session_controller/session_controller.dart';
 import 'package:f_map/pages/distance_screens/card_widget.dart';
@@ -15,6 +16,8 @@ class DistanceView extends GetView<DistanceScreenController> {
   Widget build(BuildContext context) {
     controller.getUpdatedCurrentLocation();
     return Scaffold(
+      appBar: reuseAbleAppBar('Distance Screen', AppColors.buttonColor,
+          AppColors.buttonTextColor, true),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(

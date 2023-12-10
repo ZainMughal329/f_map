@@ -129,8 +129,8 @@ class SideMenuTile extends StatelessWidget {
             ListTile(
               onTap: press,
               leading: SizedBox(
-                height: 34,
-                width: 34,
+                height: 40,
+                width: 40,
                 child: RiveAnimation.asset(
                   menu.src,
                   artboard: menu.artboard,
@@ -152,14 +152,18 @@ class SideMenuTile extends StatelessWidget {
 List<RiveAsset> sideMenu = [
   RiveAsset('assets/riveAssets/icons.riv', RoutesName.homeScreen,
       artboard: "HOME", stateMachineName: "HOME_interactivity", title: "Home"),
-  RiveAsset('assets/riveAssets/icons.riv',RoutesName.distanceScreen,
-      artboard: "SEARCH",
-      stateMachineName: "SEARCH_Interactivity",
-      title: "Search"),
+
+  RiveAsset('assets/riveAssets/trwvel_icon.riv',RoutesName.distanceScreen,
+      artboard: "GPS", stateMachineName: "gps_interactivity", title: "Distance"),
+  RiveAsset('assets/riveAssets/icons.riv',RoutesName.profile,
+      artboard: "USER",
+      stateMachineName: "USER_Interactivity",
+      title: "Profile"),
   RiveAsset('assets/riveAssets/icons.riv',RoutesName.loginScreen,
       artboard: "LIKE/STAR",
       stateMachineName: "STAR_Interactivity",
       title: "Favorites"),
   RiveAsset('assets/riveAssets/icons.riv',RoutesName.adminScreen,
-      artboard: "CHAT", stateMachineName: "CHAT_Interactivity", title: "Help"),
+      artboard: "CHAT", stateMachineName: "CHAT_Interactivity", title: "FAQ's"),
+
 ];

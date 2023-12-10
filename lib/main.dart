@@ -35,7 +35,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        iconButtonTheme: IconButtonThemeData(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+            )
+        ),
+        iconTheme:IconThemeData(
+          color: Colors.white,
+        ) ,
+      ),
+
       initialRoute: RoutesName.splashScreen,
       getPages: AppRoutes.routes,
     );

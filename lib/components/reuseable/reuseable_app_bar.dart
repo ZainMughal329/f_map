@@ -15,18 +15,5 @@ PreferredSizeWidget reuseAbleAppBar(String title , Color color,Color textColor ,
     ),
     backgroundColor: color,
     automaticallyImplyLeading: moveBack,
-    actions: [
-      IconButton(
-        onPressed: () async{
-          await FirebaseAuth.instance.signOut().then((value){
-            SessionController().userId = null;
-            Get.offAllNamed(RoutesName.loginScreen);
-          }).onError((error, stackTrace){
-
-          });
-        },
-        icon: Icon(Icons.logout),
-      ),
-    ],
   );
 }

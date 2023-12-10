@@ -6,6 +6,7 @@ import 'package:f_map/pages/drawer/index.dart';
 import 'package:f_map/pages/home_screen/index.dart';
 import 'package:f_map/pages/map_screen/index.dart';
 import 'package:f_map/pages/onboarding_screen/index.dart';
+import 'package:f_map/pages/profile/index.dart';
 import 'package:f_map/pages/signup_screen/index.dart';
 import 'package:f_map/pages/signup_screen/pages/login/index.dart';
 import 'package:f_map/pages/splash_screen/index.dart';
@@ -47,6 +48,11 @@ class AppRoutes {
       name: RoutesName.mapScreen,
       page: () => MapScreen(),
       binding: MapBindings(),
+      transition: Transition.zoom,
+    ),GetPage(
+      name: RoutesName.profile,
+      page: () => ProfileScreen(),
+      binding: ProfileBindings(),
       transition: Transition.zoom,
     ),
 
