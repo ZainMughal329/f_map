@@ -196,20 +196,8 @@ class _HomeScreenState extends State<HomeScreen>
                             ),
                             _buildSelectVehicle(
                                 'Bike', 'assets/images/bycicle', context),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            _buildSelectVehicle(
-                                'Nothing', 'assets/images/walk', context),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            RoundButton(
-                                title: 'To Distance Screen',
-                                onPress: () {
-                                  Get.toNamed(RoutesName.distanceScreen);
-                                }),
-                            // _buildSelectVehicle('Car', 'assets/images/car'),
+
+                             // _buildSelectVehicle('Car', 'assets/images/car'),
                           ],
                         ),
                       ),

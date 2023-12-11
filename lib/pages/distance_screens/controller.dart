@@ -20,6 +20,9 @@ class DistanceScreenController extends GetxController {
   adp.AudioPlayer audioPlayer = adp.AudioPlayer();
 
 
+
+
+
    playAlertSound() async {
 
 AssetsAudioPlayer.playAndForget(Audio("assets/sound/alert.mp3"),);
@@ -61,14 +64,6 @@ AssetsAudioPlayer.playAndForget(Audio("assets/sound/alert.mp3"),);
         'lang': locationData.longitude!.toDouble(),
         'speed': state.speed,
       }).then((value) {
-        // goToCurrentLocation();
-        // print('before');
-        // print('speed val : ' + state.speed.toString());
-
-        // showMarkersList();
-        // getVisibleMarkers();
-
-        // print('new location fetched');
       }).onError((error, stackTrace) {
         // print('failed');
       });
@@ -171,5 +166,10 @@ AssetsAudioPlayer.playAndForget(Audio("assets/sound/alert.mp3"),);
   //   state.currentLat = double.parse(user['lat'].toString());
   //   state.currentLang = double.parse(user['lang'].toString());
   // }
+
+
+
+
+
 
 }

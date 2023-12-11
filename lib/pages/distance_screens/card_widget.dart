@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 final state = DistanceState();
 final cont = DistanceScreenController();
 Widget cardWidget (String name, String type ,String number, String speed , double distance , double est){
-  if (distance < 100) {
+  if (distance < 300) {
     cont.playAlertSound();
   }
   return Padding(
@@ -85,8 +85,8 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
                         ],
                       ),
                     ),
-                    end: 1000.0,
-                    steps: 200.0,
+                    end: 1500.0,
+                    steps: 300.0,
                     enableGaugeAnimation: true,
                     rulers: RulerStyle(
                       rulerPosition: RulerPosition.bottom,
@@ -115,7 +115,7 @@ Widget cardWidget (String name, String type ,String number, String speed , doubl
                         showLabel: true,
                         // color: distance >400 && distance <500 ? AppColors.buttonColor : AppColors.warningColor,
                         // color: AppColors.warningColor,
-                        color: distance>0 && distance <=300 ? AppColors.warningColor : distance>300 && distance<=700 ? AppColors.yellowColor : AppColors.buttonColor,
+                        color: distance>0 && distance <=400 ? AppColors.warningColor : distance>400 && distance<=1000 ? AppColors.yellowColor : AppColors.buttonColor,
                         height: 30,
                         width: 20,
                       ),

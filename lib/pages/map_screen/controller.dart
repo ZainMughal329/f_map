@@ -133,11 +133,9 @@ class MapController extends GetxController {
           markerIcon = await getBytesFromAssets('assets/images/car.png', 50);
         } else if (mar['vehicleType'] == 'Bus') {
           markerIcon = await getBytesFromAssets('assets/images/bus.png', 50);
-        } else if (mar['vehicleType'] == 'Bike') {
+        } else {
           markerIcon =
               await getBytesFromAssets('assets/images/bycicle.png', 50);
-        } else {
-          markerIcon = await getBytesFromAssets('assets/images/walk.png', 50);
         }
         final lat = mar['lat'] as double?;
         final lng = mar['lang'] as double?;

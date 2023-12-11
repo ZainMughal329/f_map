@@ -45,6 +45,8 @@
 //     );
 //   }
 // }
+import 'package:f_map/components/colors/app_colors.dart';
+import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/map_screen/controller.dart';
 import 'package:f_map/pages/map_screen/widget/speedometer_widget.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +54,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../components/reuseable/text_widget.dart';
 import '../drawer/view.dart';
 
 class MapScreen extends GetView<MapController> {
@@ -99,7 +102,11 @@ class MapScreen extends GetView<MapController> {
           future: controller.checkLocationPermission(),
           builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.buttonColor,
+                ),
+              );
             } else {
               controller.showMarkersList();
               // controller.getVisibleMarkers();
@@ -108,8 +115,7 @@ class MapScreen extends GetView<MapController> {
                   Obx(
                     () => GoogleMap(
                       initialCameraPosition: CameraPosition(
-                        target:
-                            controller.state.currentLocation.value,
+                        target: controller.state.currentLocation.value,
                         zoom: 15.0,
                         bearing: 0, // Set the initial bearing
                         tilt: 45.0,
@@ -122,29 +128,67 @@ class MapScreen extends GetView<MapController> {
                         controller.getVisibleMarkers(),
                       ),
                       trafficEnabled: true,
-                      myLocationEnabled: true,
+                      myLocationEnabled: false,
+                      zoomControlsEnabled: false,
                       mapType: MapType.normal,
                       // zoomControlsEnabled: false, // Hide zoom controls
                       // compassEnabled: false, // Hide compass
                       // rotateGesturesEnabled: true, // Disable rotation gestures
                       // scrollGesturesEnabled: true, // Enable scroll gestures
                       // tiltGesturesEnabled: true, // Enable tilt gestures
-                      myLocationButtonEnabled: true,
+                      myLocationButtonEnabled: false,
                       // Hide my location button
-                      mapToolbarEnabled: true,
+                      mapToolbarEnabled: false,
                       // Disable map toolbar
-                      buildingsEnabled:
-                          true, // Show 3D buildings if available
+                      buildingsEnabled: true, // Show 3D buildings if available
                       // indoorViewEnabled: true, // Disable indoor view
                       // minMaxZoomPreference: MinMaxZoomPreference(10.0, 20.0),
                     ),
                   ),
                   Positioned(
-                    bottom: 20,
-                    left: 20,
+                    bottom: 60,
+                    left: 10,
                     child: GetBuilder<MapController>(
                       builder: (con) => SpeedoMeterWidget(
                         speed: con.state.speed,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 70,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(RoutesName.distanceScreen);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 60),
+                          child: Container(
+                            height: 50,
+                            width: 150,
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.buttonColor,
+                            ),
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(
+                              child: TextWidget(
+                                title: 'Distance Screen',
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                textColor: AppColors.buttonTextColor,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -152,14 +196,6 @@ class MapScreen extends GetView<MapController> {
               );
             }
           },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // controller.goToCurrentLocation();
-            // print(controller.visibleMarkers);
-            controller;
-          },
-          child: Icon(Icons.location_searching),
         ),
       ),
     );

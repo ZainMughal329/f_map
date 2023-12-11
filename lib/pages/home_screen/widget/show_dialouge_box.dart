@@ -24,6 +24,7 @@ void showFeedbackDialog(
         content: TextFormField(
           controller: feedbackCon,
           cursorColor: AppColors.buttonColor,
+          keyboardType: TextInputType.text,
           style: GoogleFonts.poppins(
             fontSize: 14,
           ),

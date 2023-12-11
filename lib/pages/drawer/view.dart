@@ -153,8 +153,6 @@ List<RiveAsset> sideMenu = [
   RiveAsset('assets/riveAssets/icons.riv', RoutesName.homeScreen,
       artboard: "HOME", stateMachineName: "HOME_interactivity", title: "Home"),
 
-  RiveAsset('assets/riveAssets/trwvel_icon.riv',RoutesName.distanceScreen,
-      artboard: "GPS", stateMachineName: "gps_interactivity", title: "Distance"),
   RiveAsset('assets/riveAssets/icons.riv',RoutesName.profile,
       artboard: "USER",
       stateMachineName: "USER_Interactivity",
