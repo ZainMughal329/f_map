@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 final state = DistanceState();
 final cont = DistanceScreenController();
 Widget cardWidget (String name, String type ,String number, String speed , double distance , double est){
-  if (distance < 300) {
+  if (distance < 400) {
     cont.playAlertSound();
   }
   return Padding(
