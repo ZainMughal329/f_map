@@ -3,7 +3,9 @@ import 'package:f_map/components/reuseable/reuseable_app_bar.dart';
 import 'package:f_map/components/reuseable/text_widget.dart';
 import 'package:f_map/pages/splash_screen/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 
 class SplashScreen extends GetView<SplashController> {
@@ -18,22 +20,25 @@ class SplashScreen extends GetView<SplashController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
             Container(
               height: 300,
-              child: RiveAnimation.asset('assets/riveAssets/map.riv'),
+              child: Lottie.asset('assets/animations/splash.json'),
             ),
             Container(
-              child: TextWidget(
-                title: 'Splash Screen',
-                textColor: Colors.black,
-              ),
-            ),
+                    child: TextWidget(
+              title: 'Fog Map',
+              textColor: Colors.black,
+              fontSize: 30,
+            ),)
+                .animate(
+                  autoPlay: true,
+                )
+                .fade()
+                .slide(curve: Curves.easeIn),
           ],
         ),
       ),
     );
-
   }
 }

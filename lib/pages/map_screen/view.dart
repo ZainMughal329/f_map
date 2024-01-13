@@ -53,6 +53,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart' as lt;
 
 import '../../components/reuseable/text_widget.dart';
 import '../drawer/view.dart';
@@ -103,9 +104,7 @@ class MapScreen extends GetView<MapController> {
           builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.buttonColor,
-                ),
+                child: lt.Lottie.asset('assets/animations/loading2.json',width: 200,height: 200),
               );
             } else {
               controller.showMarkersList();

@@ -11,7 +11,9 @@ import 'package:f_map/pages/home_screen/widget/show_dialouge_box.dart';
 import 'package:f_map/pages/splash_screen/controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 
 import '../../utils/rive_utils.dart';
@@ -45,8 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
         setState(() {});
       });
     animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-          parent: _animationController, curve: Curves.ease),
+      CurvedAnimation(parent: _animationController, curve: Curves.ease),
     );
     sclAnimation = Tween<double>(begin: 1, end: 0.8).animate(
       CurvedAnimation(
@@ -63,13 +64,18 @@ class _HomeScreenState extends State<HomeScreen>
 
   // Widget _buildSelectVehicle(
   Widget _buildSelectVehicle(
-      String vehicleType, String vehicleLogo, BuildContext context) {
+      // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      String vehicleType,
+      String vehicleLogo,
+      BuildContext context) {
     return GestureDetector(
       onTap: () {
+        print("VehicelType"+vehicleType);
         if (vehicleType == 'Car' ||
             vehicleType == 'Bus' ||
             vehicleType == 'Bike') {
           controller.state.vehicleType = vehicleType;
+          // print("VehicelType"+vehicleType);
           showFeedbackDialog(context, controller.state.feddBackCon);
         } else {
           controller.state.vehicleType = 'none';
@@ -90,14 +96,17 @@ class _HomeScreenState extends State<HomeScreen>
                 Container(
                   margin: EdgeInsets.only(right: 16),
                   child: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: AppColors.buttonColor,
-                    backgroundImage: AssetImage('$vehicleLogo.png'),
-                  ),
+                    backgroundColor: Colors.transparent,
+                      radius: 30, child: Lottie.asset(vehicleLogo)),
+                  // child: CircleAvatar(
+                  //   radius: 30,
+                  //   backgroundColor: AppColors.buttonColor,
+                  //   backgroundImage: AssetImage('$vehicleLogo.png'),
+                  // ),
                 ),
               Flexible(
                 child: Text(
-                  'Your vehicle type is $vehicleType',
+                  'Vehicle type => $vehicleType',
                   style: TextStyle(
                     color: AppColors.buttonTextColor,
                     // Set your desired text color
@@ -114,127 +123,164 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    // final height = MediaQuery.of(context).size.height * 1;
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     controller.fetchUserName();
     return Scaffold(
+      // backgroundColor: Colors.grey.withOpacity(0.09),
       // appBar: reuseAbleAppBar(
       //   'Vehicle Selection',
       //   AppColors.buttonColor,
       //   AppColors.buttonTextColor,
       //   false,
       // ),
-      body: Obx(() => controller.state.userName.value == '' ? Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: CircularProgressIndicator(
-              color: AppColors.buttonColor,
-            ),
-          ),
-        ],
-      ) : SingleChildScrollView(
-        child: Stack(
-          children: [
-            AnimatedPositioned(
-              duration: Duration(milliseconds: 10),
-              curve: Curves.ease,
-              height: MediaQuery.of(context).size.height,
-              width: 288,
-              left: isSideMenuClosed ? -288 : 0,
-              top: 0,
-              child: SideMenu(),
-            ),
-            Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.identity()
-                ..setEntry(3, 2, 0.001)
-                ..rotateY(1 * animation.value - 30 * animation.value * pi / 180),
-              child: Transform.translate(
-                offset: Offset(animation.value * 265, 0),
-                child: Transform.scale(
-                  scale: sclAnimation.value,
-                  child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(isSideMenuClosed ? 0 : 12),
-                    child: Center(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 50, horizontal: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(height: 15,),
-
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                children: [
-                                  TextWidget(title: 'Hi , ' , fontSize: 25,fontWeight: FontWeight.bold,),
-                                  TextWidget(title: controller.state.userName.value.capitalizeFirst.toString(), fontSize: 25,fontWeight: FontWeight.bold,),
-
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: TextWidget(title: 'Select your vehicle type from here.',fontSize: 19,fontWeight: FontWeight.w500,),
-                            ),
-                            SizedBox(height: 10,),
-
-                            _buildSelectVehicle(
-                                'Car', 'assets/images/car', context),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            _buildSelectVehicle(
-                                'Bus', 'assets/images/bus', context),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            _buildSelectVehicle(
-                                'Bike', 'assets/images/bycicle', context),
-
-                             // _buildSelectVehicle('Car', 'assets/images/car'),
-                          ],
-                        ),
+      body: Obx(
+        () => controller.state.userName.value == ''
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Container(
+                      child: Lottie.asset('assets/animations/loading2.json',
+                          width: 200,
+                      height: 200,
                       ),
                     ),
                   ),
+                ],
+              )
+            : SingleChildScrollView(
+                child: Stack(
+                  children: [
+                    AnimatedPositioned(
+                      duration: Duration(milliseconds: 10),
+                      curve: Curves.ease,
+                      height: MediaQuery.of(context).size.height,
+                      // height: height,
+                      width: 288,
+                      left: isSideMenuClosed ? -288 : 0,
+                      top: 0,
+                      child: SideMenu(),
+                    ),
+                    Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()
+                        ..setEntry(3, 2, 0.001)
+                        ..rotateY(1 * animation.value -
+                            30 * animation.value * pi / 180),
+                      child: Transform.translate(
+                        offset: Offset(animation.value * 265, 0),
+                        child: Transform.scale(
+                          scale: sclAnimation.value,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                isSideMenuClosed ? 0 : 12),
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 50, horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Row(
+                                        children: [
+                                          TextWidget(
+                                            title: 'Hi , ',
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          TextWidget(
+                                            title: controller.state.userName
+                                                .value.capitalizeFirst
+                                                .toString(),
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: TextWidget(
+                                        title:
+                                            'Select your vehicle type from here.',
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+
+                                    _buildSelectVehicle('Car',
+                                        'assets/animations/car1.json', context),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    _buildSelectVehicle(
+                                        'Bus',
+                                        'assets/animations/truck1.json',
+                                        context),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    _buildSelectVehicle(
+                                        'Bike',
+                                        'assets/animations/bike1.json',
+                                        context),
+
+                                    // _buildSelectVehicle('Car', 'assets/images/car'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    AnimatedPositioned(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.fastOutSlowIn,
+                      left: isSideMenuClosed ? 0 : 220,
+                      top: 0,
+                      child: MenuBtn(
+                        onPress: () {
+                          isSideBarClosed.value = !isSideBarClosed.value;
+                          if (_animationController.value == 0) {
+                            _animationController.forward();
+                          } else {
+                            _animationController.reverse();
+                          }
+                          setState(() {
+                            isSideMenuClosed = isSideBarClosed.value;
+                          });
+                        },
+                        riveOnInit: (artboard) {
+                          StateMachineController con =
+                              RiveUtls.getRiveController(artboard,
+                                  stateMachineName: "State Machine");
+                          isSideBarClosed =
+                              con.findInput<bool>("isOpen") as SMIBool;
+                          isSideBarClosed.value = true;
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            AnimatedPositioned(
-              duration: Duration(milliseconds: 200),
-              curve: Curves.fastOutSlowIn,
-              left: isSideMenuClosed ? 0 : 220,
-              top: 0,
-              child: MenuBtn(
-                onPress: () {
-                  isSideBarClosed.value = !isSideBarClosed.value;
-                  if (_animationController.value == 0) {
-                    _animationController.forward();
-                  } else {
-                    _animationController.reverse();
-                  }
-                  setState(() {
-                    isSideMenuClosed = isSideBarClosed.value;
-                  });
-                },
-                riveOnInit: (artboard) {
-                  StateMachineController con = RiveUtls.getRiveController(
-                      artboard,
-                      stateMachineName: "State Machine");
-                  isSideBarClosed = con.findInput<bool>("isOpen") as SMIBool;
-                  isSideBarClosed.value = true;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),),
+      ),
     );
   }
 }

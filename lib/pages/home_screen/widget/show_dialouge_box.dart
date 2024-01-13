@@ -68,9 +68,10 @@ void showFeedbackDialog(
                   // snackPosition: SnackPosition.BOTTOM,
                 );
               } else {
+                print("vehicelType"+con.state.vehicleType.toString());
                 con.state.modelNum = feedbackCon.text.trim().toString();
                 con.storeDataInFirebase();
-                Get.toNamed(RoutesName.mapScreen);
+
               }
               feedbackCon.clear(); // Clear the text field
             },

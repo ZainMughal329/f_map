@@ -13,6 +13,11 @@ void main() async {
           appId: "1:352198791950:android:7f5d74b59200163e107d5f",
           messagingSenderId: '',
           projectId: "f-map-f3e1e"));
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
