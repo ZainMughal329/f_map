@@ -48,6 +48,7 @@
 import 'package:f_map/components/colors/app_colors.dart';
 import 'package:f_map/components/routes/routes_name.dart';
 import 'package:f_map/pages/map_screen/controller.dart';
+import 'package:f_map/pages/map_screen/widget/dialogBox.dart';
 import 'package:f_map/pages/map_screen/widget/speedometer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,34 +65,7 @@ class MapScreen extends GetView<MapController> {
       onWillPop: () async {
         // Prevent app from exiting when back button is pressed
         // Show an exit confirmation dialog to the user
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Exit App'),
-            content: Text('Are you sure you want to exit the app?'),
-            actions: [
-              TextButton(
-                child: Text('No'),
-                onPressed: () => Navigator.of(context).pop(false),
-              ),
-              TextButton(
-                child: Text('Yes'),
-                onPressed: () {
-                  Navigator.pop(context);
-
-                  SystemNavigator.pop().then((value) async {
-                    // await _controller.locRef.child(SessionController().userId.toString()).remove();
-
-                    controller.deleteCurrentNode();
-                  }).onError((error, stackTrace) {
-                    // Utils.showToast(error.toString());
-                    print('error');
-                  });
-                },
-              ),
-            ],
-          ),
-        );
+        showExitDialogBox(context);
 
         // Return false to prevent default system back button behavior
         return false;

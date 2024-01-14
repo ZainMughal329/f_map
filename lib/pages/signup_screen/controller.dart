@@ -110,6 +110,7 @@ class SignUpController extends GetxController {
   clearControllers() {
     state.emailCon.clear();
     state.passCon.clear();
+    state.phoneCon.clear();
     state.userNameCon.clear();
   }
 }

@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     controller.fetchUserName();
     return Scaffold(
-      // backgroundColor: Colors.grey.withOpacity(0.09),
+      backgroundColor: Colors.white.withOpacity(.8),
       // appBar: reuseAbleAppBar(
       //   'Vehicle Selection',
       //   AppColors.buttonColor,
@@ -161,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen>
                       width: 288,
                       left: isSideMenuClosed ? -288 : 0,
                       top: 0,
+
                       child: SideMenu(),
                     ),
                     Transform(
@@ -172,14 +173,14 @@ class _HomeScreenState extends State<HomeScreen>
                       child: Transform.translate(
                         offset: Offset(animation.value * 265, 0),
                         child: Transform.scale(
-                          scale: sclAnimation.value,
+                          scale: isSideMenuClosed ? 1 : .8,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                isSideMenuClosed ? 0 : 12),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                isSideMenuClosed ? 0 : 22),),
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 50, horizontal: 10),
+                                padding: EdgeInsets.only(
+                                    top: 50, left: 10 , right: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
@@ -240,6 +241,9 @@ class _HomeScreenState extends State<HomeScreen>
                                         'Bike',
                                         'assets/animations/bike1.json',
                                         context),
+                                    SizedBox(
+                                      height: 227,
+                                    ),
 
                                     // _buildSelectVehicle('Car', 'assets/images/car'),
                                   ],

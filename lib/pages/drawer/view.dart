@@ -28,6 +28,9 @@ class _SideMenuState extends State<SideMenu> {
         color: Color(0xff17203a),
         child: Column(
           children: [
+            SizedBox(
+              height: 20,
+            ),
             ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.white24,

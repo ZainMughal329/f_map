@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
           color: Colors.white,
         ) ,
       ),
-
+      // home: SideMEnuBar(),
       initialRoute: RoutesName.splashScreen,
       getPages: AppRoutes.routes,
     );
